@@ -3,6 +3,7 @@
 import type React from 'react';
 import { useState, useRef } from 'react';
 import { Mic } from 'lucide-react';
+import Link from 'next/link';
 
 export default function PromptSection() {
   const [isListening, setIsListening] = useState(false);
@@ -113,14 +114,18 @@ export default function PromptSection() {
             >
               <Mic className='w-5 h-5' />
             </button>
-            <button
-              type='submit'
-              className='absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-muted rounded-lg transition-colors'
+            <Link
+              href={prompt ? `/chat?prompt=${encodeURIComponent(prompt)}` : '#'}
             >
-              <span className='text-muted-foreground hover:text-foreground text-xl'>
-                →
-              </span>
-            </button>
+              <button
+                type='submit'
+                className='absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-muted rounded-lg transition-colors'
+              >
+                <span className='text-muted-foreground hover:text-foreground text-xl'>
+                  →
+                </span>
+              </button>
+            </Link>
           </div>
 
           {isListening && (
@@ -131,7 +136,7 @@ export default function PromptSection() {
           )}
         </form>
 
-        {/* ✨ Islamic Question Shortcuts */}
+        {/* Islamic Question Shortcuts */}
         <div className='mt-8 flex flex-wrap items-center justify-center gap-2'>
           {islamicPrompts.map((question, index) => (
             <button

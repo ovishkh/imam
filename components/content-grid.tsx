@@ -1,9 +1,23 @@
+'use client';
+
+import React, { JSX } from 'react';
+import {
+  Globe,
+  BookOpen,
+  Scale,
+  CalendarDays,
+  CheckCircle,
+  Link2,
+  UserRound,
+  Puzzle,
+} from 'lucide-react';
+
 interface ContentItem {
   id: string;
   title: string;
   category: string;
   type: 'video' | 'document' | 'website' | 'slides';
-  icon: string;
+  icon: JSX.Element;
 }
 
 const contentItems: ContentItem[] = [
@@ -12,65 +26,65 @@ const contentItems: ContentItem[] = [
     title: 'Biographical Explorer',
     category: 'Islamic Studies',
     type: 'website',
-    icon: '👤',
+    icon: <UserRound className='w-8 h-8' />,
   },
   {
     id: '2',
     title: 'Content Analyzer',
     category: 'Knowledge Tools',
     type: 'website',
-    icon: '🧩',
+    icon: <Puzzle className='w-8 h-8' />,
   },
   {
     id: '3',
     title: 'Isnad Visualization',
     category: 'Hadith Studies',
     type: 'website',
-    icon: '🔗',
+    icon: <Link2 className='w-8 h-8' />,
   },
   {
     id: '4',
     title: 'Quran Explorer',
     category: 'Quranic Studies',
     type: 'website',
-    icon: '📖',
+    icon: <BookOpen className='w-8 h-8' />,
   },
   {
     id: '5',
     title: 'Knowledge Web',
     category: 'Research',
     type: 'website',
-    icon: '🌐',
+    icon: <Globe className='w-8 h-8' />,
   },
   {
     id: '6',
     title: 'Hadith Authenticator',
     category: 'Hadith Studies',
     type: 'website',
-    icon: '✅',
+    icon: <CheckCircle className='w-8 h-8' />,
   },
   {
     id: '7',
     title: 'Daily Practice Guide',
     category: 'Lifestyle',
     type: 'website',
-    icon: '📅',
+    icon: <CalendarDays className='w-8 h-8' />,
   },
   {
     id: '8',
     title: 'Fiqh Navigator',
     category: 'Islamic Jurisprudence',
     type: 'website',
-    icon: '⚖️',
+    icon: <Scale className='w-8 h-8' />,
   },
 ];
 
 export default function ContentGrid() {
   return (
-    <section className='w-full py-12 px-4 bg-background'>
+    <section className='w-full py-16 px-4 bg-background'>
       <div className='max-w-7xl mx-auto'>
         {/* Category Filter */}
-        <div className='flex flex-wrap justify-center gap-2 mb-8'>
+        <div className='flex flex-wrap justify-center gap-3 mb-10'>
           {[
             'All',
             'Islamic Studies',
@@ -81,11 +95,7 @@ export default function ContentGrid() {
           ].map((category) => (
             <button
               key={category}
-              className={`px-4 py-2 rounded-full text-sm transition-colors ${
-                category === 'Edu'
-                  ? 'bg-primary text-primary-foreground'
-                  : 'border border-border text-foreground hover:bg-muted'
-              }`}
+              className='px-6 py-2.5 rounded-full text-sm border border-border text-foreground hover:bg-primary/10 hover:text-primary transition-all font-medium'
             >
               {category}
             </button>
@@ -93,34 +103,29 @@ export default function ContentGrid() {
         </div>
 
         {/* Content Grid */}
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
           {contentItems.map((item) => (
             <div
               key={item.id}
-              className='group p-10 rounded-lg border border-border bg-card hover:border-primary/50 hover:shadow-lg transition-all cursor-pointer'
+              className='group p-12 rounded-2xl border border-border bg-card hover:border-primary/50 hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between'
             >
-              <div className='mb-4'>
-                <h3 className='text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2'>
-                  {item.title}
-                </h3>
-              </div>
-
-              <div className='flex items-center justify-between pt-4 border-t border-border'>
-                <span className='text-sm text-muted-foreground'>
-                  {item.category}
-                </span>
-                <div className='text-muted-foreground group-hover:text-primary transition-colors text-xl'>
+              <div className='flex flex-col items-center text-center space-y-4'>
+                <div className='text-primary bg-primary/10 p-5 rounded-full'>
                   {item.icon}
                 </div>
+                <h3 className='text-xl font-semibold text-foreground group-hover:text-primary transition-colors'>
+                  {item.title}
+                </h3>
+                <p className='text-sm text-muted-foreground'>{item.category}</p>
               </div>
             </div>
           ))}
         </div>
 
         {/* Explore More */}
-        <div className='mt-12 text-center'>
-          <button className='text-primary hover:text-primary/80 transition-colors font-medium'>
-            Explore more Features →
+        <div className='mt-16 text-center'>
+          <button className='text-primary hover:text-primary/80 transition-colors font-semibold text-lg'>
+            Explore More Features →
           </button>
         </div>
       </div>
