@@ -3,68 +3,38 @@
 import type React from 'react';
 import { useState, useRef } from 'react';
 import { Mic, Send, Loader2 } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-
-interface Message {
-  role: 'user' | 'assistant';
-  content: string;
-}
+import { useRouter } from 'next/navigation';
 
 export default function PromptSection() {
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef<any>(null);
   const [prompt, setPrompt] = useState('');
-  const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!prompt.trim() || isLoading) return;
 
     const userMessage = prompt.trim();
-    setPrompt('');
-    setError(null);
 
-    // Add user message to chat
-    const newMessages = [...messages, { role: 'user' as const, content: userMessage }];
-    setMessages(newMessages);
-    setIsLoading(true);
+    // Create new chat with initial message (no AI response yet)
+    const newChat = {
+      id: Date.now().toString(),
+      title: userMessage.slice(0, 30) + (userMessage.length > 30 ? '...' : ''),
+      messages: [{ role: 'user', content: userMessage }],
+      createdAt: Date.now(),
+      loading: true, // Mark as loading
+    };
 
-    try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          message: userMessage,
-          conversationHistory: messages,
-        }),
-      });
+    // Save to localStorage
+    const existingChats = localStorage.getItem('imamChats');
+    const chats = existingChats ? JSON.parse(existingChats) : [];
+    chats.unshift(newChat);
+    localStorage.setItem('imamChats', JSON.stringify(chats));
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || data.details || 'Failed to get response');
-      }
-
-      // Add assistant response to chat
-      setMessages([...newMessages, { role: 'assistant', content: data.response }]);
-      setTimeout(scrollToBottom, 100);
-    } catch (err: any) {
-      const errorMessage = err.message || 'Failed to get response from Imam';
-      setError(errorMessage);
-      console.error('Error:', err);
-    } finally {
-      setIsLoading(false);
-    }
+    // Redirect immediately to chat page
+    router.push(`/chat?id=${newChat.id}`);
   };
   const startVoiceInput = () => {
     if (
@@ -130,7 +100,7 @@ export default function PromptSection() {
 
   return (
     <section className='w-full py-16 md:py-24 px-4 bg-linear-to-b from-background to-background/50'>
-      <div className='max-w-4xl mx-auto'>
+      <div className='max-w-3xl mx-auto'>
         <div className='text-center mb-12'>
           <h1 className='text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance'>
             Ask any Islamic question
@@ -140,62 +110,6 @@ export default function PromptSection() {
             knowledge.
           </p>
         </div>
-
-        {/* Chat Messages */}
-        {messages.length > 0 && (
-          <div className='mb-6 max-h-[500px] overflow-y-auto space-y-4 p-4 bg-card/50 rounded-xl border border-border'>
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={`flex ${
-                  message.role === 'user' ? 'justify-end' : 'justify-start'
-                }`}
-              >
-                <div
-                  className={`max-w-[80%] rounded-lg p-4 ${
-                    message.role === 'user'
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-muted text-foreground'
-                  }`}
-                >
-                  <div className='text-sm font-semibold mb-1'>
-                    {message.role === 'user' ? 'You' : 'Imam'}
-                  </div>
-                  {message.role === 'assistant' ? (
-                    <div className='prose prose-sm dark:prose-invert max-w-none'>
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {message.content}
-                      </ReactMarkdown>
-                    </div>
-                  ) : (
-                    <div className='whitespace-pre-wrap wrap-break-word'>
-                      {message.content}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-            {isLoading && (
-              <div className='flex justify-start'>
-                <div className='max-w-[80%] rounded-lg p-4 bg-muted text-foreground'>
-                  <div className='text-sm font-semibold mb-1'>Imam</div>
-                  <div className='flex items-center gap-2'>
-                    <Loader2 className='w-4 h-4 animate-spin' />
-                    <span>Thinking...</span>
-                  </div>
-                </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-        )}
-
-        {/* Error Message */}
-        {error && (
-          <div className='mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 text-sm'>
-            {error}
-          </div>
-        )}
 
         {/* Prompt Input */}
         <form onSubmit={handleSubmit} className='space-y-4'>
@@ -243,20 +157,18 @@ export default function PromptSection() {
         </form>
 
         {/* Islamic Question Shortcuts */}
-        {messages.length === 0 && (
-          <div className='mt-8 flex flex-wrap items-center justify-center gap-2'>
-            {islamicPrompts.map((question, index) => (
-              <button
-                key={index}
-                onClick={() => setPrompt(question)}
-                disabled={isLoading}
-                className='px-4 py-2 rounded-full text-sm border border-border hover:bg-muted transition-colors text-foreground disabled:opacity-50 disabled:cursor-not-allowed'
-              >
-                {question}
-              </button>
-            ))}
-          </div>
-        )}
+        <div className='mt-8 flex flex-wrap items-center justify-center gap-2'>
+          {islamicPrompts.map((question, index) => (
+            <button
+              key={index}
+              onClick={() => setPrompt(question)}
+              disabled={isLoading}
+              className='px-4 py-2 rounded-full text-sm border border-border hover:bg-muted transition-colors text-foreground disabled:opacity-50 disabled:cursor-not-allowed'
+            >
+              {question}
+            </button>
+          ))}
+        </div>
       </div>
     </section>
   );
