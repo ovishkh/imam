@@ -7,10 +7,13 @@ const libreBaskerville = Libre_Baskerville({
   subsets: ['latin'],
   weight: ['400', '700'],
 });
+
+
 export const metadata: Metadata = {
   title: 'Imam - Ask Islamic Question',
   description: 'Get answers to your Islamic questions from knowledgeable sources.',
 };
+
 
 export default function RootLayout({
   children,
