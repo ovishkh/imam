@@ -2,14 +2,16 @@
 
 import type React from 'react';
 import { useState, useRef } from 'react';
-import { Mic, Send, Loader2 } from 'lucide-react';
+import { Mic, Send, Loader2, Phone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import VoiceChat from './voice-chat';
 
 export default function PromptSection() {
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef<any>(null);
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showVoiceChat, setShowVoiceChat] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -169,7 +171,26 @@ export default function PromptSection() {
             </button>
           ))}
         </div>
+
+        {/* Voice Call Button */}
+        <div className='mt-6 text-center'>
+          <button
+            onClick={() => setShowVoiceChat(true)}
+            className='inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-primary to-primary/80 text-primary-foreground rounded-full hover:opacity-90 transition-opacity font-medium shadow-lg'
+          >
+            <Phone className='w-5 h-5' />
+            Start Voice Conversation
+          </button>
+          <p className='mt-2 text-xs text-muted-foreground'>
+            Talk directly with the Islamic Imam
+          </p>
+        </div>
       </div>
+
+      {/* Voice Chat Modal */}
+      {showVoiceChat && (
+        <VoiceChat onClose={() => setShowVoiceChat(false)} />
+      )}
     </section>
   );
 }

@@ -10,9 +10,12 @@ import {
   Trash2,
   Menu,
   X,
+  Phone,
+  Mic,
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import VoiceChat from '@/components/voice-chat';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -34,6 +37,7 @@ function ChatPageContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [showVoiceChat, setShowVoiceChat] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
 
@@ -321,9 +325,18 @@ function ChatPageContent() {
               <Menu className='w-5 h-5' />
             )}
           </button>
-          <h1 className='text-lg font-semibold'>
+          <h1 className='text-lg font-semibold flex-1'>
             {currentChat?.title || 'Imam AI'}
           </h1>
+          <button
+            onClick={() => setShowVoiceChat(true)}
+            className='flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity'
+            title='Start Voice Conversation'
+          >
+            {/* <Phone className='w-4 h-4' /> */}
+            <Mic className='w-4 h-4' />
+            <span className='hidden sm:inline'>Talk to Imam</span>
+          </button>
         </div>
 
         {/* Messages Area */}
@@ -426,6 +439,11 @@ function ChatPageContent() {
           </form>
         </div>
       </div>
+
+      {/* Voice Chat Modal */}
+      {showVoiceChat && (
+        <VoiceChat onClose={() => setShowVoiceChat(false)} />
+      )}
     </div>
   );
 }
