@@ -335,7 +335,7 @@ function ChatPageContent() {
           >
             {/* <Phone className='w-4 h-4' /> */}
             <Mic className='w-4 h-4' />
-            <span className='hidden sm:inline'>Talk to Imam</span>
+            <span className='hidden sm:inline'>Talk </span>
           </button>
         </div>
 
@@ -424,6 +424,15 @@ function ChatPageContent() {
                 disabled={isLoading}
                 className='w-full px-4 py-3 pr-12 rounded-xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed'
               />
+              <button
+            onClick={() => setShowVoiceChat(true)}
+            className='absolute right-12 cursor-pointer text-black/50 hover:text-violet-400 top-1/2 -translate-y-1/2 p-2 rounded-lg  hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed'
+            title='Start Voice Conversation'
+          >
+            {/* <Phone className='w-4 h-4' /> */}
+            <Mic className='w-4 h-4' />
+            {/* <span className='hidden sm:inline'>Talk </span> */}
+          </button>
               <button
                 type='submit'
                 disabled={isLoading || !prompt.trim()}

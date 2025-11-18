@@ -267,7 +267,7 @@ export default function VoiceChat({ onClose }: VoiceChatProps) {
         {/* Footer */}
         <div className='px-6 py-4 bg-muted/30 border-t border-border flex items-center justify-between'>
           <p className='text-xs text-muted-foreground'>
-            Powered by Ultravox AI
+            Imam - Islamic AI
           </p>
           <button
             onClick={onClose}
