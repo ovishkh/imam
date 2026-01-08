@@ -12,6 +12,15 @@ const libreBaskerville = Libre_Baskerville({
 export const metadata: Metadata = {
   title: 'Imam - Ask Islamic Question',
   description: 'Get answers to your Islamic questions from knowledgeable sources.',
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/shortcut-icon.png',
+    apple: '/apple-icon.png',
+    other: {
+      rel: 'apple-touch-icon-precomposed',
+      url: '/apple-touch-icon-precomposed.png',
+    },
+  },
 };
 
 
