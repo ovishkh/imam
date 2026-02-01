@@ -16,227 +16,248 @@ import {
     Share2,
     Filter,
     Layers,
-    Activity
+    Activity,
+    Brain,
+    Lock,
+    Eye
 } from 'lucide-react';
 import Header from '@/components/header';
+import { motion } from 'framer-motion';
 
 export default function ContentAnalyzer() {
     const [activeTab, setActiveTab] = useState('Overview');
     const [analysisInput, setAnalysisInput] = useState('Surah Al-Baqarah (2:282-284)');
 
     return (
-        <div className="min-h-screen bg-background text-foreground">
+        <div className="min-h-screen bg-transparent">
             <Header />
 
-            <main className="max-w-7xl mx-auto px-4 py-12">
-                <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div>
-                        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 font-serif uppercase">
-                            CONTENT ANALYZER
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+                {/* Header Section */}
+                <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 mb-16">
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-primary/10 text-primary rounded-xl">
+                                <Brain className="w-6 h-6" />
+                            </div>
+                            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground">Neural Text Analysis</span>
+                        </div>
+                        <h1 className="text-5xl font-bold text-foreground font-serif tracking-tight">
+                            CONTENT <span className="text-primary underline decoration-primary/20 underline-offset-8">ANALYZER</span>
                         </h1>
-                        <p className="text-lg text-muted-foreground max-w-xl">
-                            Advanced semantic analysis of Islamic texts, providing breakdowns of themes, legislative weighting, and tonality.
+                        <p className="text-lg text-muted-foreground max-w-xl leading-relaxed">
+                            Leverage advanced semantic models to deconstruct legislative density, spiritual tonality, and thematic clusters in classical texts.
                         </p>
                     </div>
 
-                    <div className="flex-1 max-w-xl">
-                        <div className="bg-card p-6 rounded-2xl border border-border shadow-sm">
-                            <label className="block text-sm font-bold mb-2 uppercase tracking-tight text-muted-foreground">Analyze Text for Context & Themes</label>
-                            <div className="relative mb-4">
-                                <input
-                                    type="text"
-                                    value={analysisInput}
-                                    onChange={(e) => setAnalysisInput(e.target.value)}
-                                    className="w-full px-4 py-3 pr-12 rounded-xl bg-muted border border-border focus:ring-2 focus:ring-primary/50 outline-none"
-                                    placeholder="Enter verse reference or paste text..."
-                                />
-                                <div className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary text-primary-foreground rounded-lg cursor-pointer">
-                                    <Zap className="w-5 h-5 fill-current" />
+                    <div className="w-full lg:w-[450px]">
+                        <div className="bg-card/50 backdrop-blur-xl p-8 rounded-[2rem] border border-primary/20 shadow-2xl overflow-hidden relative group">
+                            <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors" />
+                            <div className="relative z-10 space-y-6">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold uppercase tracking-widest text-primary">Input Source</label>
+                                    <div className="relative">
+                                        <input
+                                            type="text"
+                                            value={analysisInput}
+                                            onChange={(e) => setAnalysisInput(e.target.value)}
+                                            className="w-full px-5 py-4 rounded-2xl bg-background border border-border focus:ring-2 focus:ring-primary/50 outline-none transition-all pr-12 text-sm font-medium"
+                                            placeholder="Verse reference or unique ID..."
+                                        />
+                                        <div className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-foreground text-background rounded-xl cursor-pointer hover:scale-105 transition-transform">
+                                            <Zap className="w-4 h-4 fill-current" />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex flex-wrap gap-2 items-center text-[10px] font-bold uppercase">
-                                <span className="text-muted-foreground">Recents:</span>
-                                {['Ayatul Kursi', 'Surah Luqman', 'Hadith Bukhari #1', 'Marriage Laws'].map(tag => (
-                                    <span key={tag} className="px-3 py-1 bg-muted rounded-full hover:bg-muted/80 cursor-pointer border border-border transition-colors">
-                                        {tag}
-                                    </span>
-                                ))}
+                                <div className="flex flex-wrap gap-2">
+                                    {['Ayatul Kursi', 'Surah Luqman'].map(tag => (
+                                        <span key={tag} className="px-3 py-1 bg-muted/50 rounded-lg text-[9px] font-bold uppercase border border-border hover:bg-muted transition-colors cursor-pointer">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-                    {/* Analysis Sidebar Controllers */}
-                    <div className="lg:col-span-1 space-y-6">
-                        <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
-                            <h3 className="text-xs font-bold uppercase text-muted-foreground mb-6 flex items-center gap-2">
-                                <Filter className="w-4 h-4" /> Analysis Parameters
-                            </h3>
-
-                            <div className="space-y-6">
-                                <div>
-                                    <span className="text-[10px] font-bold uppercase block mb-3">Model Depth</span>
-                                    <div className="grid grid-cols-2 gap-2">
-                                        <button className="py-2 bg-primary text-primary-foreground text-[10px] font-bold rounded-lg px-2">Linguistic</button>
-                                        <button className="py-2 bg-muted text-muted-foreground text-[10px] font-bold rounded-lg px-2 border border-border">Scholarly</button>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    {/* Dashboard Sidebar */}
+                    <aside className="lg:col-span-3 space-y-6">
+                        <div className="bg-card rounded-[2rem] border border-border p-8 space-y-8 shadow-sm">
+                            <div>
+                                <h3 className="text-[10px] font-bold uppercase text-muted-foreground mb-6 tracking-widest flex items-center gap-2">
+                                    <Filter className="w-3 h-3" /> Core Parameters
+                                </h3>
+                                <div className="space-y-4">
+                                    <div className="p-4 bg-muted/30 rounded-2xl border border-border space-y-3">
+                                        <span className="text-[9px] font-bold uppercase text-muted-foreground block">Model Sensitivity</span>
+                                        <div className="flex bg-background p-1 rounded-xl border border-border">
+                                            <button className="flex-1 py-1.5 bg-primary text-primary-foreground text-[9px] font-bold rounded-lg px-2 shadow-sm">Deep</button>
+                                            <button className="flex-1 py-1.5 text-muted-foreground text-[9px] font-bold rounded-lg px-2">Surface</button>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div>
-                                    <span className="text-[10px] font-bold uppercase block mb-3">Include References</span>
-                                    <div className="space-y-2">
-                                        {['Tafsir Ibn Kathir', 'Tafsir Al-Jalalayn', 'Historical Context'].map(ref => (
-                                            <label key={ref} className="flex items-center gap-2 cursor-pointer group">
-                                                <div className="w-4 h-4 rounded border border-primary/30 flex items-center justify-center group-hover:bg-primary/5">
-                                                    <div className="w-2 h-2 bg-primary rounded-sm" />
+                                    <div className="space-y-3">
+                                        {['Lexical Markers', 'Syntax Flux'].map(ref => (
+                                            <div key={ref} className="flex items-center justify-between p-3 rounded-xl hover:bg-muted/50 cursor-pointer border border-transparent hover:border-border transition-all">
+                                                <span className="text-[11px] font-bold text-foreground">{ref}</span>
+                                                <div className="w-8 h-4 bg-primary/20 rounded-full relative">
+                                                    <div className="absolute right-0.5 top-0.5 w-3 h-3 bg-primary rounded-full shadow-sm" />
                                                 </div>
-                                                <span className="text-xs font-semibold">{ref}</span>
-                                            </label>
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
-
-                                <button className="w-full py-3 bg-primary/10 text-primary border border-primary/20 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-primary/20 transition-colors">
-                                    Run Deep Analysis
-                                </button>
                             </div>
+                            <button className="w-full py-4 bg-foreground text-background rounded-2xl text-[10px] font-bold uppercase tracking-[0.2em] shadow-xl hover:opacity-90 transition-all">
+                                Execute Re-Scan
+                            </button>
                         </div>
 
-                        <div className="bg-card rounded-2xl border border-border p-6 shadow-sm overflow-hidden relative">
-                            <div className="absolute top-0 right-0 p-2 opacity-10">
-                                <Activity className="w-20 h-20" />
+                        <div className="bg-primary/5 rounded-[2rem] border border-primary/20 p-8 relative overflow-hidden group hover:border-primary/40 transition-all">
+                            <Activity className="absolute -bottom-6 -right-6 w-24 h-24 text-primary/5 group-hover:text-primary/10 transition-colors" />
+                            <h3 className="text-[10px] font-bold uppercase text-primary mb-2 tracking-widest">Reliability Index</h3>
+                            <div className="flex items-baseline gap-2">
+                                <span className="text-5xl font-black text-foreground font-serif">94</span>
+                                <span className="text-xs font-bold text-primary">/100</span>
                             </div>
-                            <h3 className="text-xs font-bold uppercase text-muted-foreground mb-4">Real-time Score</h3>
-                            <div className="flex items-end gap-2 mb-2">
-                                <span className="text-4xl font-bold font-serif leading-none">92</span>
-                                <span className="text-xs font-bold text-primary pb-1">/ 100</span>
-                            </div>
-                            <p className="text-[10px] text-muted-foreground font-semibold">Semantic compatibility with selected thematic cluster.</p>
+                            <p className="text-[10px] text-muted-foreground font-medium mt-4 line-clamp-2">High fidelity match with classical tafsir thematic consensus.</p>
                         </div>
-                    </div>
+                    </aside>
 
-                    {/* Main Dashboard Area */}
-                    <div className="lg:col-span-3 space-y-8">
-                        {/* Dynamic Analysis Tabs */}
-                        <div className="flex border-b border-border overflow-x-auto no-scrollbar">
-                            {['Overview', 'Linguistic Network', 'Thematic Clustering', 'Scholarly Weights'].map(tab => (
-                                <button
-                                    key={tab}
-                                    onClick={() => setActiveTab(tab)}
-                                    className={`px-6 py-4 text-xs font-bold uppercase tracking-widest whitespace-nowrap transition-colors relative ${activeTab === tab ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+                    {/* Dashboard Metrics */}
+                    <div className="lg:col-span-9 space-y-8">
+                        {/* Summary Ribbon */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {[
+                                { icon: <Scale className="w-4 h-4" />, label: 'Legislative', val: '75%', color: 'text-blue-500' },
+                                { icon: <MessageSquare className="w-4 h-4" />, label: 'Tonality', val: 'Firm', color: 'text-amber-500' },
+                                { icon: <Eye className="w-4 h-4" />, label: 'Theme Match', val: 'Consensus', color: 'text-green-500' }
+                            ].map((item, i) => (
+                                <motion.div
+                                    whileHover={{ y: -5 }}
+                                    key={i}
+                                    className="bg-card rounded-3xl border border-border p-6 shadow-sm flex items-center gap-4 transition-all hover:bg-muted/10 group"
                                 >
-                                    {tab}
-                                    {activeTab === tab && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />}
-                                </button>
+                                    <div className="p-3 bg-muted rounded-2xl group-hover:bg-background transition-colors shadow-inner">
+                                        {item.icon}
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-bold uppercase text-muted-foreground tracking-widest mb-1">{item.label}</p>
+                                        <p className={`text-xl font-bold ${item.color}`}>{item.val}</p>
+                                    </div>
+                                </motion.div>
                             ))}
                         </div>
 
-                        {/* Dashboard Content */}
+                        {/* Main Analysis Visuals */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            {/* Legislative vs Spiritual Weighting */}
-                            <div className="bg-card rounded-3xl border border-border p-8 shadow-sm">
-                                <div className="flex items-center justify-between mb-8">
-                                    <h3 className="text-sm font-bold flex items-center gap-2">
-                                        <Scale className="w-4 h-4 text-primary" />
-                                        Legislative weighting
+                            <div className="bg-card rounded-[2.5rem] border border-border p-10 shadow-sm space-y-8">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-xs font-bold uppercase tracking-widest text-foreground flex items-center gap-2">
+                                        <BarChart3 className="w-4 h-4 text-primary" /> Cognitive Map
                                     </h3>
-                                    <BarChart3 className="w-4 h-4 text-muted-foreground opacity-50" />
+                                    <button className="p-2 border border-border rounded-xl hover:bg-muted transition-colors"><Layers className="w-3.5 h-3.5" /></button>
                                 </div>
 
-                                <div className="space-y-8">
-                                    <div className="relative h-4 bg-muted rounded-full overflow-hidden shadow-inner">
-                                        <div className="absolute left-0 top-0 bottom-0 bg-primary w-[75%] rounded-full shadow-lg shadow-primary/20" />
-                                    </div>
-                                    <div className="flex justify-between text-xs font-bold uppercase tracking-tighter">
-                                        <div className="flex flex-col">
-                                            <span className="text-primary mb-1">Legal / Fiqh 75%</span>
-                                            <span className="text-muted-foreground text-[8px] max-w-[120px]">High density of contractual and social regulation.</span>
+                                <div className="space-y-10">
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between items-end">
+                                            <span className="text-[11px] font-bold text-foreground">Legislative Weight (Fiqh)</span>
+                                            <span className="text-[11px] font-bold text-primary">75%</span>
                                         </div>
-                                        <div className="text-right flex flex-col items-end">
-                                            <span className="text-muted-foreground mb-1">Spiritual / Akhlaq 25%</span>
-                                            <span className="text-muted-foreground text-[8px] max-w-[120px]">Contextual warnings and ethical reminders.</span>
+                                        <div className="h-2 bg-muted rounded-full relative overflow-hidden ring-1 ring-border">
+                                            <motion.div
+                                                initial={{ width: 0 }}
+                                                animate={{ width: '75%' }}
+                                                transition={{ duration: 1, ease: 'easeOut' }}
+                                                className="absolute inset-y-0 bg-primary rounded-full shadow-[0_0_15px_rgba(var(--primary),0.3)]"
+                                            />
                                         </div>
                                     </div>
+                                    <div className="space-y-4 opacity-60">
+                                        <div className="flex justify-between items-end">
+                                            <span className="text-[11px] font-bold text-foreground">Spiritual Weight (Akhlaq)</span>
+                                            <span className="text-[11px] font-bold text-muted-foreground">25%</span>
+                                        </div>
+                                        <div className="h-2 bg-muted rounded-full relative overflow-hidden">
+                                            <motion.div
+                                                initial={{ width: 0 }}
+                                                animate={{ width: '25%' }}
+                                                transition={{ duration: 1, delay: 0.2 }}
+                                                className="absolute inset-y-0 bg-muted-foreground/30 rounded-full"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="pt-8 border-t border-border mt-8 flex justify-between items-center group cursor-pointer">
+                                    <span className="text-[10px] font-bold uppercase text-muted-foreground group-hover:text-primary transition-colors">Expand Semantic Depth</span>
+                                    <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-all group-hover:translate-x-1" />
                                 </div>
                             </div>
 
-                            {/* Tone and Sentiment */}
-                            <div className="bg-card rounded-3xl border border-border p-8 shadow-sm">
-                                <div className="flex items-center justify-between mb-8">
-                                    <h3 className="text-sm font-bold flex items-center gap-2">
-                                        <MessageSquare className="w-4 h-4 text-primary" />
-                                        Tonality Analysis
-                                    </h3>
-                                    <Activity className="w-4 h-4 text-muted-foreground opacity-50" />
-                                </div>
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="p-4 bg-muted/30 rounded-2xl border border-border border-dashed flex flex-col items-center justify-center text-center">
-                                        <span className="text-2xl font-bold text-foreground">Firm</span>
-                                        <span className="text-[10px] font-bold text-muted-foreground uppercase mt-1 tracking-widest">Primary Tone</span>
+                            <div className="bg-card rounded-[2.5rem] border border-border p-10 shadow-sm flex flex-col justify-between group overflow-hidden relative">
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -translate-x-[-40%] -translate-y-[-40%] group-hover:scale-125 transition-transform duration-700" />
+                                <div className="relative z-10 space-y-8">
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-2 bg-primary/10 text-primary rounded-xl">
+                                            <PieChart className="w-4 h-4" />
+                                        </div>
+                                        <h3 className="text-xs font-bold uppercase tracking-widest text-foreground">Tonality Matrix</h3>
                                     </div>
-                                    <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10 flex flex-col items-center justify-center text-center">
-                                        <span className="text-2xl font-bold text-primary">Caution</span>
-                                        <span className="text-[10px] font-bold text-primary uppercase mt-1 tracking-widest">Secondary Tone</span>
-                                    </div>
-                                </div>
-                            </div>
 
-                            {/* Theme Extraction */}
-                            <div className="bg-card rounded-3xl border border-border p-8 shadow-sm md:col-span-2">
-                                <div className="flex items-center justify-between mb-8">
-                                    <h3 className="text-sm font-bold flex items-center gap-2 uppercase tracking-widest">
-                                        <Hash className="w-4 h-4 text-primary" />
-                                        Extracted Semantic Themes
-                                    </h3>
-                                    <div className="flex gap-2">
-                                        <button className="p-2 hover:bg-muted rounded-lg border border-border"><Download className="w-4 h-4" /></button>
-                                        <button className="p-2 hover:bg-muted rounded-lg border border-border"><Share2 className="w-4 h-4" /></button>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    {[
-                                        { title: 'Contractual Integrity', score: 94, icon: <FileText className="w-4 h-4" />, items: ['Documentation', 'Witnessing', 'Equity'] },
-                                        { title: 'Social Responsibility', score: 81, icon: <Layers className="w-4 h-4" />, items: ['Communal trust', 'Public welfare'] },
-                                        { title: 'Divine Accountability', score: 88, icon: <Zap className="w-4 h-4" />, items: ['Taqwa', 'Judgment', 'Omniscience'] }
-                                    ].map((theme, i) => (
-                                        <div key={i} className="group cursor-pointer">
-                                            <div className="flex items-center justify-between mb-4">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="p-2 bg-primary/10 text-primary rounded-lg border border-primary/20 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">{theme.icon}</div>
-                                                    <h4 className="font-bold text-sm">{theme.title}</h4>
-                                                </div>
-                                                <span className="text-xs font-bold text-muted-foreground">{theme.score}%</span>
+                                    <div className="space-y-6">
+                                        {[
+                                            { label: 'Firm/Command', val: 82, color: 'bg-primary' },
+                                            { label: 'Warning/Caution', val: 14, color: 'bg-destructive/60' },
+                                            { label: 'Informational', val: 4, color: 'bg-muted' }
+                                        ].map((t, i) => (
+                                            <div key={i} className="flex items-center gap-4">
+                                                <div className={`w-3 h-3 rounded-md ${t.color} flex-shrink-0 shadow-sm`} />
+                                                <span className="text-[11px] font-bold text-foreground flex-1">{t.label}</span>
+                                                <span className="text-[11px] font-bold text-muted-foreground">{t.val}%</span>
                                             </div>
-                                            <div className="flex flex-wrap gap-2">
-                                                {theme.items.map(t => (
-                                                    <span key={t} className="px-2 py-1 bg-muted text-[10px] font-semibold rounded border border-border group-hover:border-primary/30 transition-colors">{t}</span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    ))}
+                                        ))}
+                                    </div>
+
+                                    <div className="p-6 bg-muted/40 rounded-3xl border border-border mt-4">
+                                        <p className="text-[10px] text-muted-foreground leading-relaxed italic">
+                                            "Dominant imperative tone identified (Firm: 82%). High concentration of directive verbs matches the legislative nature of the text."
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* Analysis Breakdown */}
-                            <div className="md:col-span-2">
-                                <div className="bg-primary/5 rounded-3xl border border-primary/20 p-8 shadow-inner relative overflow-hidden">
-                                    <div className="absolute bottom-0 right-0 w-64 h-64 bg-primary/5 rounded-full -translate-x-[-30%] -translate-y-[-30%] blur-3xl opacity-50" />
-                                    <div className="relative z-10 flex flex-col md:flex-row gap-8 items-center text-center md:text-left">
-                                        <div className="w-32 h-32 shrink-0 border-8 border-primary/20 rounded-full flex items-center justify-center relative">
-                                            <div className="absolute inset-0 border-8 border-primary rounded-full border-t-transparent animate-slow-spin" />
-                                            <span className="text-3xl font-bold text-primary">87</span>
+                            <div className="md:col-span-2 bg-[#1c1c1c] text-white rounded-[2.5rem] p-12 relative overflow-hidden shadow-2xl">
+                                <div className="absolute top-0 right-0 opacity-10 pointer-events-none">
+                                    <Search className="w-96 h-96 -translate-y-24 translate-x-24" />
+                                </div>
+                                <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">
+                                    <div className="space-y-6">
+                                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/20 rounded-lg text-primary text-[9px] font-bold uppercase border border-primary/30">
+                                            <Lock className="w-3 h-3" /> Encrypted Synthesis
                                         </div>
-                                        <div className="space-y-4">
-                                            <h3 className="text-xl font-bold font-serif underline decoration-primary decoration-2 underline-offset-4">Comprehensive Synthesis</h3>
-                                            <p className="text-sm text-primary/80 leading-relaxed font-medium">
-                                                "The analyzed content heavily emphasizes procedural justice (75%) intertwined with divine awareness. The tone remains instructive yet serious, highlighting the critical nature of trust and documentation in social contracts."
-                                            </p>
-                                            <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:gap-3 transition-all">
-                                                Detailed Report <ChevronRight className="w-4 h-4" />
-                                            </button>
+                                        <h3 className="text-3xl font-bold font-serif leading-tight">Comprehensive AI <span className="text-primary italic">Synthesis</span></h3>
+                                        <p className="text-sm text-gray-400 leading-relaxed font-medium">
+                                            "The synthesis indicates a structural prioritization of communal accountability (88% confidence). This correlates semantically with the Quranic theme of Divine Watchfulness."
+                                        </p>
+                                        <div className="flex gap-4 pt-4">
+                                            <button className="px-6 py-3 bg-primary text-white text-[10px] font-bold uppercase rounded-xl hover:opacity-90 transition-opacity">Download Full Report</button>
+                                            <button className="px-6 py-3 bg-white/5 text-white border border-white/10 text-[10px] font-bold uppercase rounded-xl hover:bg-white/10 transition-colors">Export Map</button>
                                         </div>
+                                    </div>
+                                    <div className="hidden md:flex flex-col gap-4">
+                                        {[
+                                            { label: 'Communal Trust', score: 92 },
+                                            { label: 'Judicial Prudence', score: 84 },
+                                            { label: 'Thematic Consistency', score: 96 }
+                                        ].map((stat, i) => (
+                                            <div key={i} className="p-4 bg-white/5 border border-white/10 rounded-2xl flex justify-between items-center group hover:bg-white/10 transition-all">
+                                                <span className="text-[11px] font-bold text-gray-300">{stat.label}</span>
+                                                <span className="text-xl font-black text-primary group-hover:scale-110 transition-transform">{stat.score}%</span>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             </div>

@@ -1,297 +1,210 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Search, Book, Info, MessageSquare, History, Bookmark, Share2, Volume2, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import {
+    Book,
+    Search,
+    ChevronLeft,
+    ChevronRight,
+    Settings2,
+    Volume2,
+    BookOpen,
+    Languages,
+    Bookmark,
+    Share2,
+    Maximize2,
+    Sparkles,
+    Library,
+    FileText,
+    History,
+    MoreVertical
+} from 'lucide-react';
 import Header from '@/components/header';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function QuranExplorer() {
-    const [searchQuery, setSearchQuery] = useState('94:7');
+    const [selectedVerse, setSelectedVerse] = useState('2:255');
+    const [zenMode, setZenMode] = useState(true);
 
     return (
-        <div className="min-h-screen bg-background text-foreground">
+        <div className="min-h-screen bg-transparent">
             <Header />
 
-            <main className="max-w-7xl mx-auto px-4 py-12">
-                <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div>
-                        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 font-serif">
-                            INTERACTIVE QURANIC STUDY TOOLS
-                        </h1>
-                        <p className="text-lg text-muted-foreground max-w-xl">
-                            Enable users to explore Quranic verses in-depth by providing Arabic script, English translation, and word-by-word interpretation.
-                        </p>
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+                {/* Search & Navigation Bar */}
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-16">
+                    <div className="flex items-center gap-6">
+                        <div className="p-3 bg-primary/10 text-primary rounded-2xl">
+                            <Library className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <h1 className="text-4xl font-bold font-serif tracking-tight">QURAN <span className="text-primary italic">EXPLORER</span></h1>
+                            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mt-1">Semantic Navigation & Exegesis</p>
+                        </div>
                     </div>
 
-                    <div className="flex-1 max-w-xl">
-                        <div className="bg-card p-6 rounded-2xl border border-border shadow-sm">
-                            <label className="block text-sm font-semibold mb-2">Search Quranic Verses</label>
-                            <div className="relative mb-4">
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full px-4 py-3 pr-12 rounded-xl bg-muted border border-border focus:ring-2 focus:ring-primary/50 outline-none"
-                                    placeholder="e.g. 94:7 or Surah Al-Inshirah"
-                                />
-                                <div className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary text-primary-foreground rounded-lg cursor-pointer">
-                                    <Search className="w-5 h-5" />
-                                </div>
-                            </div>
-                            <div className="flex flex-wrap gap-2 items-center text-xs">
-                                <span className="text-muted-foreground">Popular searches:</span>
-                                {['Surah Al-Fatihah', 'Ayat Al-Kursi (2:255)', 'Theme: Patience', 'Stories of the Prophets'].map(tag => (
-                                    <span key={tag} className="px-3 py-1 bg-muted rounded-full hover:bg-muted/80 cursor-pointer border border-border transition-colors">
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
+                    <div className="flex items-center gap-4 w-full md:w-auto">
+                        <div className="relative flex-1 md:w-80">
+                            <input
+                                type="text"
+                                placeholder="Surah name, verse # or keyword..."
+                                className="w-full pl-12 pr-4 py-4 rounded-2xl bg-card border border-border focus:ring-2 focus:ring-primary/50 outline-none transition-all text-sm font-medium"
+                            />
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
                         </div>
+                        <button className="p-4 bg-card border border-border rounded-2xl hover:bg-muted transition-colors">
+                            <Settings2 className="w-5 h-5 text-muted-foreground" />
+                        </button>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Main Content Area */}
-                    <div className="lg:col-span-2 space-y-8">
-                        {/* Verse Display */}
-                        <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-sm">
-                            <div className="p-6 border-b border-border flex items-center justify-between bg-muted/30">
-                                <div className="flex items-center gap-3">
-                                    <Book className="text-primary w-5 h-5" />
-                                    <h2 className="font-bold flex items-center gap-2">
-                                        Surah Al-Inshirah (94:7)
-                                        <span className="px-2 py-0.5 bg-primary/20 text-primary rounded text-[10px] font-bold uppercase">Makki</span>
-                                    </h2>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                    {/* Verse Display Area (Zen Mode Focus) */}
+                    <div className={`${zenMode ? 'lg:col-span-8' : 'lg:col-span-12'} transition-all duration-500`}>
+                        <motion.div
+                            layout
+                            className="bg-card rounded-[3rem] border border-border shadow-2xl relative overflow-hidden group"
+                        >
+                            {/* Zen Mode Header */}
+                            <div className="p-8 border-b border-border flex items-center justify-between bg-muted/20">
+                                <div className="flex items-center gap-6">
+                                    <div className="flex flex-col">
+                                        <span className="text-xs font-black uppercase tracking-widest text-primary">Ayatul Kursi</span>
+                                        <span className="text-[10px] font-bold text-muted-foreground">Al-Baqarah • 2:255</span>
+                                    </div>
+                                    <div className="flex bg-background p-1 rounded-xl border border-border">
+                                        <button className="p-2 hover:bg-muted rounded-lg transition-colors"><Volume2 className="w-4 h-4 text-muted-foreground" /></button>
+                                        <button className="p-2 hover:bg-muted rounded-lg transition-colors"><Languages className="w-4 h-4 text-muted-foreground" /></button>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                                    <button className="p-1 hover:bg-muted rounded"><ChevronLeft className="w-4 h-4" /></button>
-                                    <span>Verse 7 of 8</span>
-                                    <button className="p-1 hover:bg-muted rounded"><ChevronRight className="w-4 h-4" /></button>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => setZenMode(!zenMode)}
+                                        className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${zenMode ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'bg-muted text-muted-foreground'}`}
+                                    >
+                                        Zen Mode
+                                    </button>
+                                    <button className="p-2 hover:bg-muted rounded-lg"><MoreVertical className="w-4 h-4 text-muted-foreground" /></button>
                                 </div>
                             </div>
 
-                            <div className="p-8 text-center space-y-8">
-                                <p className="text-3xl md:text-5xl font-arabic leading-loose text-foreground" dir="rtl">
-                                    فَإِذَا فَرَغْتَ فَانصَبْ
-                                </p>
-                                <div className="max-w-2xl mx-auto">
-                                    <p className="text-xl text-muted-foreground italic mb-2">
-                                        So when you have finished [your duties], then stand up [for worship].
+                            <div className="p-16 space-y-16">
+                                {/* Arabic Text */}
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    className="relative"
+                                >
+                                    <div className="absolute -top-10 -left-10 text-[120px] font-serif text-primary/5 select-none pointer-events-none">﷽</div>
+                                    <p className="text-5xl md:text-6xl font-arabic text-center leading-[2.5] text-foreground transition-all group-hover:text-primary/90" dir="rtl">
+                                        اللَّهُ لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ
                                     </p>
-                                </div>
-                                <div className="flex flex-wrap items-center justify-center gap-3 text-xs">
-                                    <button className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors border border-border">
-                                        <Bookmark className="w-4 h-4" /> Save
-                                    </button>
-                                    <button className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors border border-border">
-                                        <Volume2 className="w-4 h-4" /> Listen
-                                    </button>
-                                    <button className="flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 rounded-lg transition-colors border border-border">
-                                        <Share2 className="w-4 h-4" /> Share
-                                    </button>
-                                    <div className="h-4 w-px bg-border mx-2" />
-                                    <button className="px-3 py-1 bg-muted rounded-lg text-xs font-medium border border-border">Single Verse</button>
-                                    <button className="px-3 py-1 bg-primary/10 text-primary rounded-lg text-xs font-semibold border border-primary/20">With Context</button>
-                                    <button className="px-3 py-1 bg-muted rounded-lg text-xs font-medium border border-border">Full Surah</button>
-                                </div>
-                            </div>
+                                </motion.div>
 
-                            <div className="bg-muted/10 border-t border-border">
-                                <div className="flex border-b border-border">
-                                    {['Contextual', 'Linguistic', 'Historical', 'Thematic'].map((tab, i) => (
-                                        <button key={tab} className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider ${i === 0 ? 'text-primary border-b-2 border-primary' : 'text-muted-foreground'}`}>
-                                            {tab}
-                                        </button>
-                                    ))}
-                                </div>
-                                <div className="p-6">
-                                    <h3 className="flex items-center gap-2 text-sm font-bold mb-4">
-                                        <History className="w-4 h-4 text-primary" />
-                                        Contextual Analysis
-                                    </h3>
-                                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-                                        This verse appears in Surah Al-Inshirah, a chapter that begins by reminding the Prophet Muhammad (ﷺ) of Allah's favors upon him, including the expansion of his breast (spiritual capacity). After mentioning these favors and reassurances, Allah gives guidance in this verse about what to do after completing one's duties.
-                                    </p>
-                                    <div className="bg-primary/5 p-4 rounded-xl border border-primary/10">
-                                        <h4 className="flex items-center gap-2 text-xs font-bold text-primary mb-2">
-                                            <Info className="w-3.5 h-3.5" />
-                                            Contextual Meaning
-                                        </h4>
-                                        <p className="text-xs text-primary/80 leading-relaxed">
-                                            Within the context of the surah, this verse teaches that after completing one task or obligation, one should immediately engage in another act of worship or good deed rather than resting or becoming idle. It emphasizes continuous dedication to Allah's worship and service.
+                                {/* Translation & Exegesis */}
+                                <div className="max-w-3xl mx-auto space-y-12">
+                                    <div className="space-y-4 text-center">
+                                        <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary/50">Clear Quran Translation</span>
+                                        <p className="text-xl md:text-2xl font-serif leading-relaxed text-foreground/80 italic">
+                                            "Allah! There is no god worthy of worship except Him, the Ever-Living, All-Sustaining. Neither drowsiness nor sleep overtakes Him..."
                                         </p>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        {/* Tafsir (Exegesis) Section */}
-                        <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold flex items-center gap-2">
-                                    <MessageSquare className="w-5 h-5 text-primary" />
-                                    Tafsir (Exegesis)
-                                </h3>
-                                <div className="flex gap-2 text-[10px] font-bold uppercase tracking-tighter">
-                                    <button className="px-3 py-1 bg-primary text-primary-foreground rounded-md">All</button>
-                                    <button className="px-3 py-1 bg-muted text-muted-foreground rounded-md">Classical</button>
-                                    <button className="px-3 py-1 bg-muted text-muted-foreground rounded-md">Linguistic</button>
-                                    <button className="px-3 py-1 bg-muted text-muted-foreground rounded-md">Contemporary</button>
-                                </div>
-                            </div>
-
-                            <div className="space-y-6">
-                                <div className="p-4 bg-muted/20 rounded-xl border border-border">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <h4 className="font-bold">Tafsir Ibn Kathir</h4>
-                                        <span className="text-[10px] font-bold text-muted-foreground uppercase bg-muted px-2 py-0.5 rounded">Classical</span>
-                                    </div>
-                                    <p className="text-sm text-muted-foreground leading-relaxed">
-                                        Ibn Kathir explains that when you have finished your worldly obligations, then stand for the worship of your Lord and ask Him for your needs. This means that one should never be without work, either doing things that are obligatory or mustahabb (recommended). When one finishes from one action, they should take up another, and that's how they find rest.
-                                    </p>
-                                </div>
-
-                                <div className="p-4 bg-muted/20 rounded-xl border border-border">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <h4 className="font-bold">Tafsir Al-Tabari</h4>
-                                        <span className="text-[10px] font-bold text-muted-foreground uppercase bg-muted px-2 py-0.5 rounded">Classical</span>
-                                    </div>
-                                    <p className="text-sm text-muted-foreground leading-relaxed">
-                                        Al-Tabari mentions several interpretations from the early scholars. One view is that it means "When you have finished the obligatory prayers, then stand in the night prayer." Another interpretation is "When you have finished preaching, then worship." A third view is "When you have finished your worldly tasks, then exert yourself in worship."
-                                    </p>
-                                </div>
-
-                                <button className="w-full py-3 text-sm font-bold text-primary bg-primary/10 hover:bg-primary/20 rounded-xl transition-colors mt-4">
-                                    Load More Tafsir Works
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Sidebar / Secondary Content Area */}
-                    <div className="space-y-8">
-                        {/* Thematic Context */}
-                        <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
-                            <h3 className="text-sm font-bold flex items-center gap-2 mb-4 text-primary">
-                                <Bookmark className="w-4 h-4" />
-                                Thematic Context
-                            </h3>
-
-                            <div className="space-y-6">
-                                <div>
-                                    <span className="text-[10px] font-bold uppercase text-muted-foreground block mb-2">Primary Theme</span>
-                                    <span className="px-3 py-1 bg-primary text-primary-foreground text-xs font-bold rounded-lg">Continuous Worship</span>
-                                </div>
-
-                                <div>
-                                    <span className="text-[10px] font-bold uppercase text-muted-foreground block mb-2">Secondary Themes</span>
-                                    <div className="flex flex-wrap gap-2">
-                                        {['Hardship and Relief', 'Spiritual Growth', 'Focus on Allah'].map(t => (
-                                            <span key={t} className="px-3 py-1 bg-muted border border-border text-xs font-semibold rounded-lg">{t}</span>
+                                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                                        {[
+                                            { label: 'Divine Attributes', count: 5, icon: <Sparkles className="w-4 h-4" /> },
+                                            { label: 'Linguistic Notes', count: 12, icon: <FileText className="w-4 h-4" /> },
+                                            { label: 'Thematic Links', count: 3, icon: <BookOpen className="w-4 h-4" /> },
+                                            { label: 'Cross Refs', count: 8, icon: <History className="w-4 h-4" /> }
+                                        ].map((stat, i) => (
+                                            <div key={i} className="p-4 bg-muted/50 rounded-2xl border border-transparent hover:border-border transition-all group/stat cursor-pointer">
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <div className="p-1.5 bg-background text-muted-foreground group-hover/stat:text-primary transition-colors rounded-lg">{stat.icon}</div>
+                                                    <span className="text-[9px] font-black uppercase text-muted-foreground tracking-widest">{stat.label}</span>
+                                                </div>
+                                                <div className="text-xl font-black text-foreground">{stat.count}</div>
+                                            </div>
                                         ))}
                                     </div>
                                 </div>
-
-                                <div className="pt-4 border-t border-border">
-                                    <h4 className="text-xs font-bold mb-2 uppercase">Theme Exploration</h4>
-                                    <p className="text-xs text-muted-foreground leading-relaxed">
-                                        This verse explores the Islamic concept of continuous engagement in worship and good deeds, teaching that a believer should move from one virtuous action to another without becoming idle.
-                                    </p>
-                                </div>
-
-                                <div className="pt-4 border-t border-border">
-                                    <h4 className="text-xs font-bold mb-3 uppercase opacity-50">Thematic Connections</h4>
-                                    <div className="space-y-3">
-                                        <div className="flex justify-between items-center text-xs">
-                                            <span className="font-bold">Prioritizing Worship</span>
-                                            <span className="text-muted-foreground">13 verses</span>
-                                        </div>
-                                        <div className="flex justify-between items-center text-xs">
-                                            <span className="font-bold">Hardship & Relief</span>
-                                            <span className="text-muted-foreground">27 verses</span>
-                                        </div>
-                                        <div className="flex justify-between items-center text-xs">
-                                            <span className="font-bold">Gratitude for Blessings</span>
-                                            <span className="text-muted-foreground">42 verses</span>
-                                        </div>
-                                    </div>
-                                    <button className="w-full mt-4 text-[10px] font-bold uppercase tracking-wider text-primary text-center">
-                                        Explore All Thematic Connections →
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Revelation Context */}
-                        <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
-                            <h3 className="text-sm font-bold flex items-center gap-2 mb-6 text-primary">
-                                <Info className="w-4 h-4" />
-                                Revelation Context
-                            </h3>
-
-                            <div className="grid grid-cols-2 gap-4 mb-6">
-                                <div className="p-3 bg-muted/30 rounded-lg border border-border">
-                                    <span className="block text-[8px] font-bold uppercase text-muted-foreground mb-1">Number</span>
-                                    <span className="text-xl font-bold">94</span>
-                                </div>
-                                <div className="p-3 bg-muted/30 rounded-lg border border-border">
-                                    <span className="block text-[8px] font-bold uppercase text-muted-foreground mb-1">Verses</span>
-                                    <span className="text-xl font-bold">8</span>
-                                </div>
-                                <div className="p-3 bg-muted/30 rounded-lg border border-border">
-                                    <span className="block text-[8px] font-bold uppercase text-muted-foreground mb-1">Revelation</span>
-                                    <span className="text-xl font-bold">Makki</span>
-                                </div>
-                                <div className="p-3 bg-muted/30 rounded-lg border border-border">
-                                    <span className="block text-[8px] font-bold uppercase text-muted-foreground mb-1">Period</span>
-                                    <span className="text-sm font-bold leading-tight">Early Makkan</span>
-                                </div>
                             </div>
 
-                            <div className="space-y-4">
-                                <div>
-                                    <h4 className="text-[10px] font-bold uppercase mb-2">Main Themes of Surah</h4>
-                                    <ul className="text-[10px] text-muted-foreground font-semibold space-y-1.5 list-disc pl-4">
-                                        <li>Divine comfort and reassurance</li>
-                                        <li>Easing of hardship</li>
-                                        <li>Gratitude for Allah's favors</li>
-                                        <li>Continuous dedication to worship</li>
-                                    </ul>
+                            {/* Navigation Footer */}
+                            <div className="p-6 bg-muted/20 border-t border-border flex items-center justify-between">
+                                <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-all">
+                                    <ChevronLeft className="w-4 h-4" /> Previous Verse
+                                </button>
+                                <div className="flex items-center gap-2">
+                                    {[1, 2, 3].map(i => (
+                                        <div key={i} className={`w-1.5 h-1.5 rounded-full ${i === 1 ? 'bg-primary' : 'bg-border'}`} />
+                                    ))}
                                 </div>
-
-                                <div>
-                                    <h4 className="text-[10px] font-bold uppercase mb-2">Historical Context</h4>
-                                    <p className="text-[10px] text-muted-foreground leading-relaxed">
-                                        This surah is paired with its predecessor, Surah Ad-Duha, both offering consolation to the Prophet. While Ad-Duha addressed the Prophet's personal concerns, Al-Inshirah addresses his public mission and the challenges he faced in its fulfillment.
-                                    </p>
-                                </div>
-
-                                <button className="w-full py-2 bg-muted hover:bg-muted/80 text-[10px] font-bold rounded-lg border border-border transition-colors">
-                                    View Complete Surah Analysis
+                                <button className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-all">
+                                    Next Verse <ChevronRight className="w-4 h-4" />
                                 </button>
                             </div>
-                        </div>
+                        </motion.div>
+                    </div>
 
-                        {/* Related Resources */}
-                        <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
-                            <h3 className="text-sm font-bold flex items-center gap-2 mb-6 text-primary">
-                                <ExternalLink className="w-4 h-4" />
-                                Related Resources
-                            </h3>
-                            <div className="space-y-4">
-                                <div className="flex gap-3 group cursor-pointer">
-                                    <div className="w-10 h-10 bg-primary/10 text-primary rounded-lg flex items-center justify-center shrink-0 border border-primary/20">
-                                        <Book className="w-5 h-5" />
+                    {/* Exegesis Panel (Floating Sidebar) */}
+                    <AnimatePresence>
+                        {zenMode && (
+                            <motion.aside
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                                className="lg:col-span-4 space-y-6"
+                            >
+                                <div className="bg-card rounded-[2.5rem] border border-border p-8 shadow-sm space-y-8 relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 p-4 opacity-5">
+                                        <Book className="w-24 h-24" />
                                     </div>
-                                    <div>
-                                        <h4 className="text-xs font-bold group-hover:text-primary transition-colors line-clamp-2">
-                                            The Concept of Continuous Worship in Islam
-                                        </h4>
-                                        <span className="text-[9px] text-muted-foreground">Scholarly Article • 15 min read</span>
+                                    <h3 className="text-xs font-black uppercase tracking-widest text-foreground flex items-center gap-2">
+                                        <Sparkles className="w-4 h-4 text-primary" /> Multi-Source Tafsir
+                                    </h3>
+
+                                    <div className="space-y-6 relative z-10">
+                                        <div className="space-y-4">
+                                            <div className="p-5 bg-primary/5 rounded-2xl border border-primary/20">
+                                                <span className="text-[9px] font-black text-primary uppercase mb-2 block">Ibn Kathir</span>
+                                                <p className="text-xs text-muted-foreground leading-relaxed">
+                                                    This verse is the greatest verse in the Book of Allah. It contains the Greatest Name (Ism al-A'zam)...
+                                                </p>
+                                            </div>
+                                            <div className="p-5 bg-muted/30 rounded-2xl border border-transparent hover:border-border transition-all cursor-pointer">
+                                                <span className="text-[9px] font-black text-muted-foreground uppercase mb-2 block">Al-Jalalayn</span>
+                                                <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                                                    Refers to the absolute sovereignty of Allah over the heavens and the earth...
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <button className="w-full py-4 bg-foreground text-background rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:opacity-90 transition-all">
+                                            Synthesize Themes
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
+
+                                <div className="bg-[#1c1c1c] text-white rounded-[2.5rem] p-8 shadow-lg group">
+                                    <div className="flex items-center justify-between mb-6">
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-primary">Scholarly Context</span>
+                                        <Bookmark className="w-4 h-4 text-white/20 group-hover:text-primary transition-colors" />
+                                    </div>
+                                    <p className="text-[11px] text-gray-400 leading-relaxed mb-6 font-medium">
+                                        Commonly recited for protection and seeking refuge. Hadith literature emphasizes its recitation after every obligatory prayer.
+                                    </p>
+                                    <div className="flex items-center justify-between">
+                                        <div className="flex -space-x-2">
+                                            {[1, 2, 3].map(i => (
+                                                <div key={i} className="w-6 h-6 rounded-full bg-white/10 border border-white/20" />
+                                            ))}
+                                        </div>
+                                        <span className="text-[9px] font-bold text-gray-500 uppercase">12 Scholars Referenced</span>
+                                    </div>
+                                </div>
+                            </motion.aside>
+                        )}
+                    </AnimatePresence>
                 </div>
             </main>
         </div>
