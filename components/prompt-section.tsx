@@ -5,6 +5,7 @@ import { useState, useRef } from 'react';
 import { Mic, Send, Loader2, Phone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import VoiceChat from './voice-chat';
+import VoiceIndicator from './voice-indicator';
 
 export default function PromptSection() {
   const [isListening, setIsListening] = useState(false);
@@ -126,16 +127,12 @@ export default function PromptSection() {
             />
             <button
               type='button'
-              onClick={isListening ? stopVoiceInput : startVoiceInput}
+              onClick={() => setShowVoiceChat(true)}
               disabled={isLoading}
-              className={`absolute right-12 top-1/2 -translate-y-1/2 p-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
-                isListening
-                  ? 'bg-red-100 text-red-600 hover:bg-red-200'
-                  : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-              }`}
-              title={isListening ? 'Stop listening' : 'Start voice input'}
+              className="absolute right-12 top-1/2 -translate-y-1/2 p-2 rounded-lg text-primary hover:bg-primary/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Talk to Imam"
             >
-              <Mic className='w-5 h-5' />
+              <VoiceIndicator size="md" />
             </button>
             <button
               type='submit'
@@ -150,12 +147,6 @@ export default function PromptSection() {
             </button>
           </div>
 
-          {isListening && (
-            <div className='flex items-center gap-2 px-2 text-sm text-red-600'>
-              <span className='inline-block w-2 h-2 bg-red-600 rounded-full animate-pulse'></span>
-              Listening...
-            </div>
-          )}
         </form>
 
         {/* Islamic Question Shortcuts */}
@@ -176,9 +167,9 @@ export default function PromptSection() {
         <div className='mt-6 text-center'>
           <button
             onClick={() => setShowVoiceChat(true)}
-            className='inline-flex items-center gap-2 px-6 py-3 bg-linear-to-r from-primary to-primary/80 text-primary-foreground rounded-full hover:opacity-90 transition-opacity font-medium shadow-lg'
+            className='inline-flex items-center gap-4 px-8 py-4 bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity font-bold uppercase tracking-widest shadow-lg'
           >
-            <Phone className='w-5 h-5' />
+            <VoiceIndicator size='md' className="text-primary-foreground" />
             Start Voice Conversation
           </button>
           <p className='mt-2 text-xs text-muted-foreground'>

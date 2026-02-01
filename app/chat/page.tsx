@@ -16,6 +16,7 @@ import {
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import VoiceChat from '@/components/voice-chat';
+import VoiceIndicator from '@/components/voice-indicator';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -282,8 +283,8 @@ function ChatPageContent() {
               <div
                 key={chat.id}
                 className={`group flex items-center gap-2 p-3 rounded-lg cursor-pointer mb-1 transition-colors ${currentChatId === chat.id
-                    ? 'bg-muted'
-                    : 'hover:bg-muted/50'
+                  ? 'bg-muted'
+                  : 'hover:bg-muted/50'
                   }`}
                 onClick={() => setCurrentChatId(chat.id)}
               >
@@ -328,12 +329,11 @@ function ChatPageContent() {
           </h1>
           <button
             onClick={() => setShowVoiceChat(true)}
-            className='flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity'
+            className='flex items-center gap-3 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity'
             title='Start Voice Conversation'
           >
-            {/* <Phone className='w-4 h-4' /> */}
-            <Mic className='w-4 h-4' />
-            <span className='hidden sm:inline'>Talk to Imam</span>
+            <VoiceIndicator size='sm' />
+            <span className='hidden sm:inline font-bold uppercase tracking-wider text-xs'>Talk to Imam</span>
           </button>
         </div>
 
@@ -362,8 +362,8 @@ function ChatPageContent() {
                 >
                   <div
                     className={`max-w-[80%] rounded-xl p-4 ${message.role === 'user'
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted text-foreground'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted text-foreground'
                       }`}
                   >
                     <div className='text-xs font-semibold mb-2 opacity-70'>
@@ -425,10 +425,10 @@ function ChatPageContent() {
                   type='button'
                   onClick={() => setShowVoiceChat(true)}
                   disabled={isLoading}
-                  className='p-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
+                  className='p-2 rounded-lg text-primary hover:bg-primary/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
                   title='Talk to Imam'
                 >
-                  <Mic className='w-5 h-5' />
+                  <VoiceIndicator size='md' />
                 </button>
                 <button
                   type='submit'
