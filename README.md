@@ -4,12 +4,14 @@ Imam AI is a modern, AI-powered platform providing spiritual insights and guidan
 
 ## 🚀 Features
 
-- **AI Chat**: Interactive chat interface powered by Google Gemini Pro.
-- **Voice Interactions**: Real-time voice capabilities using Ultravox.
-- **Biographical Explorer**: In-depth exploration of Islamic scholars with interactive timelines and connection networks.
-- **Quran Explorer**: Advanced study tool with search, thematic context, and multiple tafsir integrations.
+- **Biographical Explorer** (Islamic Studies): In-depth exploration of Islamic scholars with interactive timelines and connection networks.
+- **Content Analyzer** (Knowledge Tools): Advanced semantic analysis of Islamic texts, providing breakdowns of themes and legislative weighting.
+- **Isnad Visualization** (Hadith Studies): Interactive transmission chains with narrator credibility markers and relationship graphs.
+- **Quran Explorer** (Quranic Studies): Advanced study tool with search, thematic context, and multiple tafsir integrations.
+- **Knowledge Web** (Research): Semantic network of Islamic sciences, showing inter-disciplinary connections.
+- **Hadith Authenticator** (Hadith Studies): Specialized tool for verifying the authenticity and canonical status of Hadith narrations.
 - **Modern UI**: Built with Radix UI, Tailwind CSS 4, and Framer Motion for a premium look and feel.
-- **Spiritual Context**: Specifically tuned to provide structured responses involving Qur'anic foundations, Hadith evidence, and scholarly insights.
+- **Voice Interactions**: Real-time voice capabilities using Ultravox and dynamic waveform indicators.
 
 ## 🛠 Tech Stack
 

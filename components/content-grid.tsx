@@ -70,7 +70,7 @@ const contentItems: ContentItem[] = [
     category: 'Hadith Studies',
     type: 'website',
     icon: <CheckCircle className='w-8 h-8' />,
-    href: '#',
+    href: '/hadith-authenticator',
   },
   {
     id: '7',
