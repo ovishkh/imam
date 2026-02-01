@@ -22,7 +22,7 @@ Imam AI is a modern, AI-powered platform providing spiritual insights and guidan
 
 ```text
 ├── app/              # Next.js App Router (Pages, API Routes)
-│   ├── api/          # Backend API endpoints (Chat, Ultravox)
+│   ├── api/          # Backend API endpoints
 │   └── chat/         # Chat interface page
 ├── components/       # Reusable UI components
 │   └── ui/           # Radix UI primitives (shadcn/ui)
@@ -49,8 +49,7 @@ Create a `.env.local` file in the root directory and add your API keys (see `.en
 ```bash
 cp .env.example .env.local
 ```
-- `GOOGLE_API_KEY`: Your Google AI Studio API key.
-- `ULTRAVOX_API_KEY`: Your Ultravox API key.
+
 
 ### 4. Run Development Server
 ```bash

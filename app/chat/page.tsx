@@ -47,12 +47,12 @@ function ChatPageContent() {
     if (savedChats) {
       const parsedChats = JSON.parse(savedChats);
       setChats(parsedChats);
-      
+
       // Check if there's a chat ID in the URL
       const urlChatId = searchParams.get('id');
       if (urlChatId && parsedChats.find((c: Chat) => c.id === urlChatId)) {
         setCurrentChatId(urlChatId);
-        
+
         // Check if this chat needs AI response
         const targetChat = parsedChats.find((c: Chat) => c.id === urlChatId);
         if (targetChat && targetChat.loading && targetChat.messages.length === 1) {
@@ -93,13 +93,13 @@ function ChatPageContent() {
         prevChats.map((chat) =>
           chat.id === chatId
             ? {
-                ...chat,
-                messages: [
-                  ...chat.messages,
-                  { role: 'assistant', content: data.response },
-                ],
-                loading: false,
-              }
+              ...chat,
+              messages: [
+                ...chat.messages,
+                { role: 'assistant', content: data.response },
+              ],
+              loading: false,
+            }
             : chat
         )
       );
@@ -107,7 +107,7 @@ function ChatPageContent() {
     } catch (err: any) {
       const errorMessage = err.message || 'Failed to get response from Imam';
       setError(errorMessage);
-      
+
       // Remove loading flag even on error
       setChats((prevChats) =>
         prevChats.map((chat) =>
@@ -234,12 +234,12 @@ function ChatPageContent() {
         prevChats.map((chat) =>
           chat.id === chatId
             ? {
-                ...chat,
-                messages: [
-                  ...updatedMessages,
-                  { role: 'assistant', content: data.response },
-                ],
-              }
+              ...chat,
+              messages: [
+                ...updatedMessages,
+                { role: 'assistant', content: data.response },
+              ],
+            }
             : chat
         )
       );
@@ -259,9 +259,8 @@ function ChatPageContent() {
     <div className='flex h-screen bg-background'>
       {/* Sidebar */}
       <div
-        className={`${
-          sidebarOpen ? 'w-64' : 'w-0'
-        } transition-all duration-300 bg-card border-r border-border overflow-hidden flex flex-col`}
+        className={`${sidebarOpen ? 'w-64' : 'w-0'
+          } transition-all duration-300 bg-card border-r border-border overflow-hidden flex flex-col`}
       >
         <div className='p-4 border-b border-border'>
           <button
@@ -282,11 +281,10 @@ function ChatPageContent() {
             chats.map((chat) => (
               <div
                 key={chat.id}
-                className={`group flex items-center gap-2 p-3 rounded-lg cursor-pointer mb-1 transition-colors ${
-                  currentChatId === chat.id
+                className={`group flex items-center gap-2 p-3 rounded-lg cursor-pointer mb-1 transition-colors ${currentChatId === chat.id
                     ? 'bg-muted'
                     : 'hover:bg-muted/50'
-                }`}
+                  }`}
                 onClick={() => setCurrentChatId(chat.id)}
               >
                 <MessageSquare className='w-4 h-4 shrink-0 text-muted-foreground' />
@@ -359,16 +357,14 @@ function ChatPageContent() {
               {currentChat.messages.map((message, index) => (
                 <div
                   key={index}
-                  className={`mb-6 flex ${
-                    message.role === 'user' ? 'justify-end' : 'justify-start'
-                  }`}
+                  className={`mb-6 flex ${message.role === 'user' ? 'justify-end' : 'justify-start'
+                    }`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-xl p-4 ${
-                      message.role === 'user'
+                    className={`max-w-[80%] rounded-xl p-4 ${message.role === 'user'
                         ? 'bg-primary text-primary-foreground'
                         : 'bg-muted text-foreground'
-                    }`}
+                      }`}
                   >
                     <div className='text-xs font-semibold mb-2 opacity-70'>
                       {message.role === 'user' ? 'You' : 'Imam'}
@@ -424,17 +420,28 @@ function ChatPageContent() {
                 disabled={isLoading}
                 className='w-full px-4 py-3 pr-12 rounded-xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed'
               />
-              <button
-                type='submit'
-                disabled={isLoading || !prompt.trim()}
-                className='absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed'
-              >
-                {isLoading ? (
-                  <Loader2 className='w-5 h-5 animate-spin' />
-                ) : (
-                  <Send className='w-5 h-5' />
-                )}
-              </button>
+              <div className='absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1'>
+                <button
+                  type='button'
+                  onClick={() => setShowVoiceChat(true)}
+                  disabled={isLoading}
+                  className='p-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
+                  title='Talk to Imam'
+                >
+                  <Mic className='w-5 h-5' />
+                </button>
+                <button
+                  type='submit'
+                  disabled={isLoading || !prompt.trim()}
+                  className='p-2 rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed'
+                >
+                  {isLoading ? (
+                    <Loader2 className='w-5 h-5 animate-spin' />
+                  ) : (
+                    <Send className='w-5 h-5' />
+                  )}
+                </button>
+              </div>
             </div>
           </form>
         </div>
