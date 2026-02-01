@@ -1,6 +1,6 @@
 # Imam AI
 
-Imam AI is a modern, AI-powered platform providing spiritual insights and guidance using advanced language models. It leverages React Server Components, Next.js 16, and integrates with Ultravox and Google Gemini for voice and chat interactions.
+Imam AI is a modern, AI-powered platform providing spiritual insights and guidance using advanced language models. It leverages React Server Components, Next.js 16, and Custom AI Models.
 
 ## 🚀 Features
 

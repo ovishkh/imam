@@ -8,7 +8,7 @@ export default function QuranExplorer() {
     const [searchQuery, setSearchQuery] = useState('94:7');
 
     return (
-        <div className="min-h-screen bg-background">
+        <div className="min-h-screen bg-background text-foreground">
             <Header />
 
             <main className="max-w-7xl mx-auto px-4 py-12">
@@ -33,7 +33,7 @@ export default function QuranExplorer() {
                                     className="w-full px-4 py-3 pr-12 rounded-xl bg-muted border border-border focus:ring-2 focus:ring-primary/50 outline-none"
                                     placeholder="e.g. 94:7 or Surah Al-Inshirah"
                                 />
-                                <div className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-emerald-500 text-white rounded-lg cursor-pointer">
+                                <div className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-primary text-primary-foreground rounded-lg cursor-pointer">
                                     <Search className="w-5 h-5" />
                                 </div>
                             </div>
@@ -56,10 +56,10 @@ export default function QuranExplorer() {
                         <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-sm">
                             <div className="p-6 border-b border-border flex items-center justify-between bg-muted/30">
                                 <div className="flex items-center gap-3">
-                                    <Book className="text-emerald-500 w-5 h-5" />
+                                    <Book className="text-primary w-5 h-5" />
                                     <h2 className="font-bold flex items-center gap-2">
                                         Surah Al-Inshirah (94:7)
-                                        <span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-[10px] font-bold uppercase">Makki</span>
+                                        <span className="px-2 py-0.5 bg-primary/20 text-primary rounded text-[10px] font-bold uppercase">Makki</span>
                                     </h2>
                                 </div>
                                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -90,7 +90,7 @@ export default function QuranExplorer() {
                                     </button>
                                     <div className="h-4 w-px bg-border mx-2" />
                                     <button className="px-3 py-1 bg-muted rounded-lg text-xs font-medium border border-border">Single Verse</button>
-                                    <button className="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-lg text-xs font-semibold border border-emerald-100">With Context</button>
+                                    <button className="px-3 py-1 bg-primary/10 text-primary rounded-lg text-xs font-semibold border border-primary/20">With Context</button>
                                     <button className="px-3 py-1 bg-muted rounded-lg text-xs font-medium border border-border">Full Surah</button>
                                 </div>
                             </div>
@@ -98,25 +98,25 @@ export default function QuranExplorer() {
                             <div className="bg-muted/10 border-t border-border">
                                 <div className="flex border-b border-border">
                                     {['Contextual', 'Linguistic', 'Historical', 'Thematic'].map((tab, i) => (
-                                        <button key={tab} className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider ${i === 0 ? 'text-emerald-600 border-b-2 border-emerald-600' : 'text-muted-foreground'}`}>
+                                        <button key={tab} className={`flex-1 py-3 text-xs font-bold uppercase tracking-wider ${i === 0 ? 'text-primary border-b-2 border-primary' : 'text-muted-foreground'}`}>
                                             {tab}
                                         </button>
                                     ))}
                                 </div>
                                 <div className="p-6">
                                     <h3 className="flex items-center gap-2 text-sm font-bold mb-4">
-                                        <History className="w-4 h-4 text-emerald-500" />
+                                        <History className="w-4 h-4 text-primary" />
                                         Contextual Analysis
                                     </h3>
                                     <p className="text-sm text-muted-foreground leading-relaxed mb-4">
                                         This verse appears in Surah Al-Inshirah, a chapter that begins by reminding the Prophet Muhammad (ﷺ) of Allah's favors upon him, including the expansion of his breast (spiritual capacity). After mentioning these favors and reassurances, Allah gives guidance in this verse about what to do after completing one's duties.
                                     </p>
-                                    <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
-                                        <h4 className="flex items-center gap-2 text-xs font-bold text-blue-700 mb-2">
+                                    <div className="bg-primary/5 p-4 rounded-xl border border-primary/10">
+                                        <h4 className="flex items-center gap-2 text-xs font-bold text-primary mb-2">
                                             <Info className="w-3.5 h-3.5" />
                                             Contextual Meaning
                                         </h4>
-                                        <p className="text-xs text-blue-700/80 leading-relaxed">
+                                        <p className="text-xs text-primary/80 leading-relaxed">
                                             Within the context of the surah, this verse teaches that after completing one task or obligation, one should immediately engage in another act of worship or good deed rather than resting or becoming idle. It emphasizes continuous dedication to Allah's worship and service.
                                         </p>
                                     </div>
@@ -128,11 +128,11 @@ export default function QuranExplorer() {
                         <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
                             <div className="flex items-center justify-between mb-6">
                                 <h3 className="text-xl font-bold flex items-center gap-2">
-                                    <MessageSquare className="w-5 h-5 text-emerald-500" />
+                                    <MessageSquare className="w-5 h-5 text-primary" />
                                     Tafsir (Exegesis)
                                 </h3>
                                 <div className="flex gap-2 text-[10px] font-bold uppercase tracking-tighter">
-                                    <button className="px-3 py-1 bg-emerald-500 text-white rounded-md">All</button>
+                                    <button className="px-3 py-1 bg-primary text-primary-foreground rounded-md">All</button>
                                     <button className="px-3 py-1 bg-muted text-muted-foreground rounded-md">Classical</button>
                                     <button className="px-3 py-1 bg-muted text-muted-foreground rounded-md">Linguistic</button>
                                     <button className="px-3 py-1 bg-muted text-muted-foreground rounded-md">Contemporary</button>
@@ -160,7 +160,7 @@ export default function QuranExplorer() {
                                     </p>
                                 </div>
 
-                                <button className="w-full py-3 text-sm font-bold text-emerald-600 bg-emerald-50 hover:bg-emerald-100 rounded-xl transition-colors mt-4">
+                                <button className="w-full py-3 text-sm font-bold text-primary bg-primary/10 hover:bg-primary/20 rounded-xl transition-colors mt-4">
                                     Load More Tafsir Works
                                 </button>
                             </div>
@@ -171,7 +171,7 @@ export default function QuranExplorer() {
                     <div className="space-y-8">
                         {/* Thematic Context */}
                         <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
-                            <h3 className="text-sm font-bold flex items-center gap-2 mb-4 text-emerald-600">
+                            <h3 className="text-sm font-bold flex items-center gap-2 mb-4 text-primary">
                                 <Bookmark className="w-4 h-4" />
                                 Thematic Context
                             </h3>
@@ -179,7 +179,7 @@ export default function QuranExplorer() {
                             <div className="space-y-6">
                                 <div>
                                     <span className="text-[10px] font-bold uppercase text-muted-foreground block mb-2">Primary Theme</span>
-                                    <span className="px-3 py-1 bg-emerald-500 text-white text-xs font-bold rounded-lg">Continuous Worship</span>
+                                    <span className="px-3 py-1 bg-primary text-primary-foreground text-xs font-bold rounded-lg">Continuous Worship</span>
                                 </div>
 
                                 <div>
@@ -214,7 +214,7 @@ export default function QuranExplorer() {
                                             <span className="text-muted-foreground">42 verses</span>
                                         </div>
                                     </div>
-                                    <button className="w-full mt-4 text-[10px] font-bold uppercase tracking-wider text-emerald-600 text-center">
+                                    <button className="w-full mt-4 text-[10px] font-bold uppercase tracking-wider text-primary text-center">
                                         Explore All Thematic Connections →
                                     </button>
                                 </div>
@@ -223,7 +223,7 @@ export default function QuranExplorer() {
 
                         {/* Revelation Context */}
                         <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
-                            <h3 className="text-sm font-bold flex items-center gap-2 mb-6 text-emerald-600">
+                            <h3 className="text-sm font-bold flex items-center gap-2 mb-6 text-primary">
                                 <Info className="w-4 h-4" />
                                 Revelation Context
                             </h3>
@@ -273,17 +273,17 @@ export default function QuranExplorer() {
 
                         {/* Related Resources */}
                         <div className="bg-card rounded-2xl border border-border p-6 shadow-sm">
-                            <h3 className="text-sm font-bold flex items-center gap-2 mb-6 text-emerald-600">
+                            <h3 className="text-sm font-bold flex items-center gap-2 mb-6 text-primary">
                                 <ExternalLink className="w-4 h-4" />
                                 Related Resources
                             </h3>
                             <div className="space-y-4">
                                 <div className="flex gap-3 group cursor-pointer">
-                                    <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center shrink-0 border border-emerald-100">
+                                    <div className="w-10 h-10 bg-primary/10 text-primary rounded-lg flex items-center justify-center shrink-0 border border-primary/20">
                                         <Book className="w-5 h-5" />
                                     </div>
                                     <div>
-                                        <h4 className="text-xs font-bold group-hover:text-emerald-600 transition-colors line-clamp-2">
+                                        <h4 className="text-xs font-bold group-hover:text-primary transition-colors line-clamp-2">
                                             The Concept of Continuous Worship in Islam
                                         </h4>
                                         <span className="text-[9px] text-muted-foreground">Scholarly Article • 15 min read</span>
