@@ -49,7 +49,7 @@ export default function VoiceChat({ onClose }: VoiceChatProps) {
       }
 
       const data = await response.json();
-      
+
       // Create Ultravox session
       const session = new UltravoxSession();
       sessionRef.current = session;
@@ -59,7 +59,7 @@ export default function VoiceChat({ onClose }: VoiceChatProps) {
         console.log('Session status event:', event);
         const status = event.state || event.status || event;
         console.log('Parsed status:', status);
-        
+
         if (status === 'connected' || status === 'idle') {
           console.log('Setting connected to true');
           setIsConnected(true);
@@ -77,7 +77,7 @@ export default function VoiceChat({ onClose }: VoiceChatProps) {
 
       session.addEventListener('transcripts', (event: any) => {
         const transcripts = event.transcripts || [];
-        const newTranscripts = transcripts.map((t: any) => 
+        const newTranscripts = transcripts.map((t: any) =>
           `${t.speaker === 'user' ? 'You' : 'Imam'}: ${t.text}`
         );
         setTranscript(newTranscripts);
@@ -92,7 +92,7 @@ export default function VoiceChat({ onClose }: VoiceChatProps) {
 
       // Join the call
       await session.joinCall(data.joinUrl);
-      
+
       // Fallback: If status event doesn't fire, set connected after a short delay
       setTimeout(() => {
         if (sessionRef.current && !isConnected) {
@@ -160,8 +160,8 @@ export default function VoiceChat({ onClose }: VoiceChatProps) {
                   {isConnected
                     ? 'Connected - Speak freely'
                     : isConnecting
-                    ? 'Connecting...'
-                    : 'Ready to start'}
+                      ? 'Connecting...'
+                      : 'Ready to start'}
                 </p>
               </div>
             </div>
@@ -188,11 +188,10 @@ export default function VoiceChat({ onClose }: VoiceChatProps) {
               {transcript.map((text, index) => (
                 <div
                   key={index}
-                  className={`text-sm ${
-                    text.startsWith('You:')
+                  className={`text-sm ${text.startsWith('You:')
                       ? 'text-primary font-medium'
                       : 'text-foreground'
-                  }`}
+                    }`}
                 >
                   {text}
                 </div>
@@ -238,11 +237,10 @@ export default function VoiceChat({ onClose }: VoiceChatProps) {
               <>
                 <button
                   onClick={toggleMute}
-                  className={`p-4 rounded-full transition-colors ${
-                    isMuted
+                  className={`p-4 rounded-full transition-colors ${isMuted
                       ? 'bg-yellow-100 dark:bg-yellow-900/20 text-yellow-600'
                       : 'bg-muted hover:bg-muted/80'
-                  }`}
+                    }`}
                   title={isMuted ? 'Unmute' : 'Mute'}
                 >
                   {isMuted ? (
@@ -267,7 +265,7 @@ export default function VoiceChat({ onClose }: VoiceChatProps) {
         {/* Footer */}
         <div className='px-6 py-4 bg-muted/30 border-t border-border flex items-center justify-between'>
           <p className='text-xs text-muted-foreground'>
-            Powered by Ultravox AI
+            Powered by Imam AI Voice
           </p>
           <button
             onClick={onClose}
