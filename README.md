@@ -6,14 +6,16 @@ Imam AI is a modern, AI-powered platform providing spiritual insights and guidan
 
 - **AI Chat**: Interactive chat interface powered by Google Gemini Pro.
 - **Voice Interactions**: Real-time voice capabilities using Ultravox.
-- **Modern UI**: Built with Radix UI, Tailwind CSS, and Framer Motion for a premium look and feel.
+- **Biographical Explorer**: In-depth exploration of Islamic scholars with interactive timelines and connection networks.
+- **Quran Explorer**: Advanced study tool with search, thematic context, and multiple tafsir integrations.
+- **Modern UI**: Built with Radix UI, Tailwind CSS 4, and Framer Motion for a premium look and feel.
 - **Spiritual Context**: Specifically tuned to provide structured responses involving Qur'anic foundations, Hadith evidence, and scholarly insights.
 
 ## 🛠 Tech Stack
 
 - **Framework**: [Next.js 16 (Patched)](https://nextjs.org/)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
-- **AI Models**: [Google Gemini Pro](https://ai.google.dev/), [Ultravox AI](https://ultravox.ai/)
+- **AI Models**: [IslamQA/multilingual-e5-small-finetuned](https://huggingface.co/IslamQA/multilingual-e5-small-finetuned)
 - **Styling**: [Tailwind CSS 4](https://tailwindcss.com/), [Lucide React](https://lucide.dev/)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **UI Components**: [Radix UI](https://www.radix-ui.com/)
