@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Libre_Baskerville } from 'next/font/google';
 import './globals.css';
+import PageTransition from '@/components/page-transition';
+import { AnimatePresence } from 'framer-motion';
 
 const libreBaskerville = Libre_Baskerville({
   variable: '--font-libre-baskerville',
@@ -32,7 +34,11 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${libreBaskerville.className} antialiased`}>
-        {children}
+        <AnimatePresence mode="wait">
+          <PageTransition>
+            {children}
+          </PageTransition>
+        </AnimatePresence>
       </body>
     </html>
   );

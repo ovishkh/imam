@@ -42,11 +42,11 @@ const contentItems: ContentItem[] = [
   },
   {
     id: '3',
-    title: 'Isnad Visualization',
+    title: 'Hadith Authenticator',
     category: 'Hadith Studies',
     type: 'website',
-    icon: <Link2 className='w-8 h-8' />,
-    href: '/isnad-visualization',
+    icon: <CheckCircle className='w-8 h-8' />,
+    href: '/hadith-authenticator',
   },
   {
     id: '4',
@@ -58,35 +58,11 @@ const contentItems: ContentItem[] = [
   },
   {
     id: '5',
-    title: 'Knowledge Web',
-    category: 'Research',
-    type: 'website',
-    icon: <Globe className='w-8 h-8' />,
-    href: '/knowledge-web',
-  },
-  {
-    id: '6',
-    title: 'Hadith Authenticator',
-    category: 'Hadith Studies',
-    type: 'website',
-    icon: <CheckCircle className='w-8 h-8' />,
-    href: '/hadith-authenticator',
-  },
-  {
-    id: '7',
-    title: 'Daily Practice Guide',
-    category: 'Lifestyle',
-    type: 'website',
-    icon: <CalendarDays className='w-8 h-8' />,
-    href: '#',
-  },
-  {
-    id: '8',
     title: 'Fiqh Navigator',
     category: 'Islamic Jurisprudence',
     type: 'website',
     icon: <Scale className='w-8 h-8' />,
-    href: '#',
+    href: '/fiqh-navigator',
   },
 ];
 
