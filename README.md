@@ -59,6 +59,10 @@ npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## 🤝 Contributing
+
+We welcome contributions from authorized team members. Please read our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) for more information.
+
 ## 🔒 Security
 
 This project has been patched for **CVE-2025-55182 (React2Shell)**.
