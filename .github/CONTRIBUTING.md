@@ -10,10 +10,10 @@ Thank you for your interest in Imam AI. As this is a proprietary project, the co
 
 ## Development Standards
 
--   **Code Quality**: Ensure all code is modular, well-documented, and follows our established design system.
--   **Commit Messages**: Use clear, descriptive commit messages starting with a prefix (e.g., `feat:`, `fix:`, `style:`, `refactor:`).
--   **Testing**: All new features must be verified across different screen sizes and validated for accessibility.
+- **Code Quality**: Ensure all code is modular, well-documented, and follows our established design system.
+- **Commit Messages**: Use clear, descriptive commit messages starting with a prefix (e.g., `feat:`, `fix:`, `style:`, `refactor:`).
+- **Testing**: All new features must be verified across different screen sizes and validated for accessibility.
 
 ---
 
-*Note: Unauthorized distribution or modification of this project is strictly prohibited under the terms of the LICENSE.*
+_Note: Unauthorized distribution or modification of this project is strictly prohibited under the terms of the LICENSE._
