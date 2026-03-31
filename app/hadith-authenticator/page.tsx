@@ -2,28 +2,26 @@
 
 import React, { useState } from 'react';
 import {
-    ShieldCheck,
     Search,
-    Info,
-    ChevronRight,
-    Filter,
-    Database,
-    Share2,
-    Download,
+    Loader2,
+    AlertCircle,
     CheckCircle2,
-    AlertTriangle,
-    FileText,
-    SearchCode,
-    Verified,
-    Link as LinkIcon,
-    History,
-    Award
+    Share2,
 } from 'lucide-react';
 import Header from '@/components/header';
-import { motion } from 'framer-motion';
+
+const SAMPLE_HADITHS = [
+    { text: 'Innamal a\'malu binniyat', meaning: 'Actions are judged by intentions' },
+    { text: 'The best of you are those who are best to their families', meaning: 'Family kindness' },
+    { text: 'Seeking knowledge is obligatory upon every Muslim', meaning: 'Importance of knowledge' },
+];
 
 export default function HadithAuthenticator() {
-    const [searchQuery, setSearchQuery] = useState('Innamal a\'malu binniyat');
+    const [query, setQuery] = useState('');
+    const [response, setResponse] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [authenticityLevel, setAuthenticityLevel] = useState('');
 
     return (
         <div className="min-h-screen bg-transparent">
