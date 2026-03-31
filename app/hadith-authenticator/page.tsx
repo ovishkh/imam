@@ -5,8 +5,8 @@ import {
     Search,
     Loader2,
     AlertCircle,
-    CheckCircle2,
     Share2,
+    CheckCircle2,
 } from 'lucide-react';
 import Header from '@/components/header';
 
@@ -23,217 +23,161 @@ export default function HadithAuthenticator() {
     const [error, setError] = useState('');
     const [authenticityLevel, setAuthenticityLevel] = useState('');
 
+    const handleSearch = async (searchQuery: string) => {
+        const queryText = searchQuery || query;
+        if (!queryText.trim()) return;
+
+        setLoading(true);
+        setError('');
+        setResponse('');
+
+        try {
+            const res = await fetch('/api/hadith-authenticator', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: queryText }),
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                setResponse(data.data);
+                setAuthenticityLevel(data.authenticityLevel || '');
+                setQuery(queryText);
+            } else {
+                setError(data.error || 'Failed to fetch data');
+            }
+        } catch (err) {
+            setError('Error connecting to API');
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
-        <div className="min-h-screen bg-transparent">
+        <div className='min-h-screen bg-background'>
             <Header />
 
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-                {/* Hero / Verification Header */}
-                <div className="mb-16 flex flex-col lg:flex-row items-center gap-12">
-                    <div className="flex-1 space-y-6 text-center lg:text-left">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 text-[10px] font-extrabold uppercase tracking-widest">
-                            <Verified className="w-3 h-3" /> Canonical Verification Engine
+            <main className='max-w-6xl mx-auto px-4 sm:px-6 py-12'>
+                <div className='mb-12'>
+                    <div className='flex items-center gap-4 mb-6'>
+                        <div className='p-3 bg-blue-500/10 text-blue-500 rounded-xl'>
+                            <CheckCircle2 className='w-6 h-6' />
                         </div>
-                        <h1 className="text-6xl font-black text-foreground font-serif tracking-tight leading-none">
-                            HADITH <span className="text-primary">AUTHENTICATOR</span>
-                        </h1>
-                        <p className="text-lg text-muted-foreground max-w-xl leading-relaxed mx-auto lg:mx-0">
-                            Verify the provenance, chain of transmission (Isnad), and text integrity (Matn) using centralized scholarly databases.
+                        <div>
+                            <h1 className='text-5xl font-bold font-serif tracking-tight'>
+                                HADITH <span className='text-blue-500'>AUTHENTICATOR</span>
+                            </h1>
+                            <p className='text-sm text-muted-foreground mt-2'>
+                                Verify authenticity and Isnad grading of Hadith with scholarly consensus
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className='flex gap-3'>
+                        <div className='flex-1 relative'>
+                            <input
+                                type='text'
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                placeholder='Search hadith text or collection reference (e.g., "Actions are by intentions")'
+                                onKeyDown={(e) => e.key === 'Enter' && handleSearch('')}
+                                className='w-full px-4 py-4 rounded-xl bg-card border border-border focus:ring-2 focus:ring-blue-500/50 outline-none transition-all'
+                            />
+                            <Search className='absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5' />
+                        </div>
+                        <button
+                            onClick={() => handleSearch('')}
+                            disabled={loading}
+                            className='px-6 py-4 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600 disabled:opacity-50 transition-all flex items-center gap-2'
+                        >
+                            {loading ? <Loader2 className='w-5 h-5 animate-spin' /> : 'Verify'}
+                        </button>
+                    </div>
+                </div>
+
+                <div className='mb-12'>
+                    <p className='text-sm text-muted-foreground mb-4'>Example Hadith:</p>
+                    <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                        {SAMPLE_HADITHS.map((item, i) => (
+                            <button
+                                key={i}
+                                onClick={() => handleSearch(item.text)}
+                                disabled={loading}
+                                className='p-4 bg-card border border-border rounded-lg hover:border-blue-500/50 hover:bg-blue-500/5 transition-all text-left disabled:opacity-50'
+                            >
+                                <div className='font-semibold text-sm'>{item.text}</div>
+                                <div className='text-xs text-muted-foreground mt-2'>{item.meaning}</div>
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {error && (
+                    <div className='mb-8 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-gap-3'>
+                        <AlertCircle className='w-5 h-5 text-red-500 flex-shrink-0 mt-0.5' />
+                        <span className='text-sm text-red-600'>{error}</span>
+                    </div>
+                )}
+
+                {response && (
+                    <div className='space-y-8'>
+                        <div className='bg-gradient-to-br from-blue-500/10 to-blue-500/5 rounded-2xl border border-blue-500/20 p-8'>
+                            <div className='flex items-start justify-between mb-6'>
+                                <div>
+                                    <div className='text-sm font-semibold text-blue-600 mb-2'>AUTHENTICITY VERIFICATION</div>
+                                    <h2 className='text-2xl font-bold text-foreground'>{query}</h2>
+                                    {authenticityLevel && (
+                                        <div className='mt-3 px-3 py-1 bg-blue-500/10 text-blue-600 text-xs rounded border border-blue-500/20 inline-block'>
+                                            Grade: {authenticityLevel}
+                                        </div>
+                                    )}
+                                </div>
+                                <button className='p-3 hover:bg-white/10 rounded-lg transition-colors'>
+                                    <Share2 className='w-5 h-5 text-muted-foreground' />
+                                </button>
+                            </div>
+
+                            <div className='bg-black/20 rounded-lg p-6 max-h-96 overflow-y-auto'>
+                                <div className='whitespace-pre-wrap text-sm leading-relaxed text-foreground'>
+                                    {response}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                            <div className='p-6 bg-card border border-border rounded-lg'>
+                                <h3 className='font-semibold mb-2'>Authenticity Grades</h3>
+                                <p className='text-sm text-muted-foreground'>
+                                    Sahih (Authentic), Hasan (Good), Da\'if (Weak), Maudu\' (Fabricated)
+                                </p>
+                            </div>
+                            <div className='p-6 bg-card border border-border rounded-lg'>
+                                <h3 className='font-semibold mb-2'>Scholarly Consensus</h3>
+                                <p className='text-sm text-muted-foreground'>
+                                    Grading based on Isnad verification and classical scholarly assessments
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {!response && !loading && (
+                    <div className='text-center py-16'>
+                        <div className='text-6xl mb-4'>🔐</div>
+                        <h2 className='text-2xl font-bold mb-2'>Verify Hadith</h2>
+                        <p className='text-muted-foreground mb-8'>
+                            Authenticate hadith and verify their grading using scholarly databases
                         </p>
                     </div>
+                )}
 
-                    <div className="w-full lg:w-[500px]">
-                        <div className="bg-card rounded-[2.5rem] border border-border p-2 shadow-2xl relative">
-                            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent rounded-[2.5rem] pointer-events-none" />
-                            <div className="p-8 space-y-6 relative z-10">
-                                <div className="space-y-2">
-                                    <label className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Search Narration or ID</label>
-                                    <div className="relative group">
-                                        <input
-                                            type="text"
-                                            value={searchQuery}
-                                            onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="w-full px-5 py-4 rounded-2xl bg-muted/50 border border-border focus:ring-2 focus:ring-primary/50 outline-none transition-all pr-12 text-sm font-semibold"
-                                            placeholder="e.g. Bukhari 1 or text..."
-                                        />
-                                        <SearchCode className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors w-5 h-5" />
-                                    </div>
-                                </div>
-                                <div className="flex flex-wrap gap-2">
-                                    {['Sahih Bukhari', 'Sahih Muslim', 'Al-Muwatta'].map(tag => (
-                                        <span key={tag} className="px-3 py-1.5 bg-background border border-border rounded-xl text-[9px] font-bold uppercase hover:border-primary/30 transition-colors cursor-pointer shadow-sm">
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
+                {loading && (
+                    <div className='text-center py-16'>
+                        <Loader2 className='w-8 h-8 animate-spin mx-auto mb-4 text-blue-500' />
+                        <p className='text-muted-foreground'>Verifying hadith authenticity...</p>
                     </div>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    {/* Authenticity Certificate */}
-                    <div className="lg:col-span-8">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="bg-card rounded-[3rem] border border-border overflow-hidden shadow-sm relative group"
-                        >
-                            {/* Certificate Border Decorations */}
-                            <div className="absolute top-0 left-0 w-32 h-32 border-l-4 border-t-4 border-primary/20 rounded-tl-[3rem] -translate-x-2 -translate-y-2" />
-                            <div className="absolute bottom-0 right-0 w-32 h-32 border-r-4 border-b-4 border-primary/20 rounded-br-[3rem] translate-x-2 translate-y-2" />
-
-                            <div className="p-8 border-b border-border bg-muted/20 flex flex-col sm:flex-row items-center justify-between gap-4">
-                                <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-green-500 text-white rounded-xl shadow-lg shadow-green-500/20">
-                                        <ShieldCheck className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-black uppercase tracking-widest text-xs text-foreground">Provenance Certificate</h3>
-                                        <p className="text-[10px] text-muted-foreground font-bold">Ref: SB-001-CANONICAL</p>
-                                    </div>
-                                </div>
-                                <div className="px-6 py-2 bg-green-500/10 border border-green-500/30 text-green-600 text-[10px] font-black rounded-full uppercase tracking-[0.2em]">
-                                    Status: Sahih (Authentic)
-                                </div>
-                            </div>
-
-                            <div className="p-10 space-y-12">
-                                <div className="flex flex-col md:flex-row gap-12">
-                                    <div className="flex-1 space-y-6">
-                                        <div className="space-y-4">
-                                            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest block">Narration (Matn)</span>
-                                            <p className="text-3xl font-arabic text-right leading-[2] text-foreground" dir="rtl">
-                                                إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى
-                                            </p>
-                                            <div className="p-6 bg-muted/30 rounded-3xl border border-border relative">
-                                                <p className="text-sm text-foreground leading-relaxed italic">
-                                                    "Verily, actions are judged by intentions, and every man shall have only that which he intended..."
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="w-full md:w-64 flex flex-col gap-4">
-                                        <div className="p-6 bg-background rounded-3xl border border-border text-center group/card hover:border-primary/30 transition-colors">
-                                            <div className="text-4xl font-black text-primary mb-1">100%</div>
-                                            <div className="text-[9px] font-bold uppercase text-muted-foreground tracking-widest">Isnad Grade</div>
-                                            <div className="mt-4 h-1 w-full bg-muted rounded-full overflow-hidden">
-                                                <div className="h-full bg-primary w-full shadow-[0_0_10px_rgba(var(--primary),0.5)]" />
-                                            </div>
-                                        </div>
-                                        <div className="p-6 bg-background rounded-3xl border border-border text-center group/card hover:border-primary/30 transition-colors">
-                                            <div className="text-4xl font-black text-primary mb-1 text-green-600">A+</div>
-                                            <div className="text-[9px] font-bold uppercase text-muted-foreground tracking-widest">Scholarly Consensus</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-8">
-                                    <div className="flex items-center gap-3">
-                                        <div className="h-px flex-1 bg-border" />
-                                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Verification Ledger</span>
-                                        <div className="h-px flex-1 bg-border" />
-                                    </div>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                        <div className="space-y-4">
-                                            <h4 className="text-[10px] font-bold uppercase text-primary tracking-widest px-1">Narrator Reliability</h4>
-                                            <div className="space-y-2">
-                                                {[
-                                                    { name: 'Yahya b. Sa\'id al-Ansari', grade: 'Thiqah' },
-                                                    { name: 'Muhammad b. Ibrahim al-Taymi', grade: 'Thiqah' },
-                                                    { name: 'Al-qamah b. Waqqas al-Laythi', grade: 'Thiqah' }
-                                                ].map((narrator, i) => (
-                                                    <div key={i} className="group flex items-center justify-between p-4 bg-muted/20 border border-transparent hover:border-border hover:bg-muted/40 rounded-2xl transition-all">
-                                                        <div className="flex items-center gap-3">
-                                                            <div className="w-8 h-8 rounded-lg bg-background border border-border flex items-center justify-center text-[10px] font-bold text-foreground">{i + 1}</div>
-                                                            <span className="text-[11px] font-bold text-foreground">{narrator.name}</span>
-                                                        </div>
-                                                        <span className="text-[9px] font-extrabold px-2 py-1 bg-green-500/10 text-green-600 rounded-md uppercase border border-green-500/20">{narrator.grade}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        <div className="space-y-4">
-                                            <h4 className="text-[10px] font-bold uppercase text-primary tracking-widest px-1">Global Database Grades</h4>
-                                            <div className="space-y-2">
-                                                {[
-                                                    { scholar: 'Ibn Hajar al-Asqalani', grade: 'Sahih' },
-                                                    { scholar: 'Imam an-Nawawi', grade: 'Sahih' },
-                                                    { scholar: 'Nasiruddin al-Albani', grade: 'Sahih' }
-                                                ].map((item, i) => (
-                                                    <div key={i} className="flex items-center justify-between p-4 bg-primary/5 border border-primary/10 rounded-2xl">
-                                                        <span className="text-[11px] font-bold text-muted-foreground">{item.scholar}</span>
-                                                        <div className="flex items-center gap-2">
-                                                            <span className="text-[11px] font-black text-primary uppercase">{item.grade}</span>
-                                                            <Award className="w-3.5 h-3.5 text-primary" />
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </div>
-
-                    {/* Sidebar Data */}
-                    <div className="lg:col-span-4 space-y-6">
-                        <div className="bg-[#1c1c1c] text-white rounded-[2.5rem] p-8 shadow-xl relative overflow-hidden group">
-                            <Database className="absolute -top-6 -left-6 w-32 h-32 text-white/5 group-hover:text-white/10 transition-colors" />
-                            <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-8">Metadata Dossier</h3>
-
-                            <div className="space-y-8 relative z-10">
-                                <div className="space-y-4">
-                                    <div className="flex justify-between items-end border-b border-white/10 pb-4">
-                                        <span className="text-[10px] font-bold uppercase text-gray-400">Primary Collection</span>
-                                        <span className="text-sm font-bold">Sahih al-Bukhari</span>
-                                    </div>
-                                    <div className="flex justify-between items-end border-b border-white/10 pb-4">
-                                        <span className="text-[10px] font-bold uppercase text-gray-400">Chapter</span>
-                                        <span className="text-sm font-bold">Revelation</span>
-                                    </div>
-                                    <div className="flex justify-between items-end border-b border-white/10 pb-4">
-                                        <span className="text-[10px] font-bold uppercase text-gray-400">Hadith Index</span>
-                                        <span className="text-sm font-bold text-primary font-mono">#0001</span>
-                                    </div>
-                                </div>
-
-                                <div className="p-4 bg-white/5 border border-white/10 rounded-2xl">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <History className="w-3 h-3 text-primary" />
-                                        <span className="text-[9px] font-bold uppercase text-gray-400">Last Verified</span>
-                                    </div>
-                                    <p className="text-[11px] font-medium text-gray-300">Synchronized with Global Hadith Network 2.4s ago.</p>
-                                </div>
-
-                                <button className="w-full py-4 bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-2xl hover:opacity-90 transition-opacity">
-                                    Comparative Matrix
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="bg-amber-500/5 rounded-[2.5rem] border border-amber-500/20 p-8 group hover:border-amber-500/40 transition-all">
-                            <div className="flex items-center gap-3 mb-4">
-                                <div className="p-2 bg-amber-500/10 text-amber-600 rounded-lg">
-                                    <AlertTriangle className="w-4 h-4" />
-                                </div>
-                                <h4 className="text-[10px] font-black text-amber-900 uppercase tracking-widest">Scholarly Nuance</h4>
-                            </div>
-                            <p className="text-xs text-amber-800/80 leading-relaxed font-medium">
-                                While the authenticity is absolute, some variants mention the specific place where the Prophet ﷺ delivered this sermon (Minbar). These minor differences do not affect the theological extraction.
-                            </p>
-                            <div className="mt-6 flex justify-end">
-                                <button className="flex items-center gap-1 text-[9px] font-black uppercase text-amber-600 hover:gap-2 transition-all">
-                                    View Variants <ChevronRight className="w-3.5 h-3.5" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                )}
             </main>
         </div>
     );

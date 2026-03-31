@@ -38,27 +38,32 @@ Imam AI is a modern, AI-powered platform providing spiritual insights and guidan
 ## ⚙️ Setup & Installation
 
 ### 1. Clone the repository
+
 ```bash
 git clone git@github.com:ovishkh/imam.git
 cd imam
 ```
 
 ### 2. Install dependencies
+
 ```bash
 npm install
 ```
 
 ### 3. Environment Variables
+
 Create a `.env.local` file in the root directory and add your API keys (see `.env.example`):
+
 ```bash
 cp .env.example .env.local
 ```
 
-
 ### 4. Run Development Server
+
 ```bash
 npm run dev
 ```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## 🤝 Contributing
@@ -68,6 +73,7 @@ We welcome contributions from authorized team members. Please read our [Contribu
 ## 🔒 Security
 
 This project has been patched for **CVE-2025-55182 (React2Shell)**.
+
 - **Next.js Version**: `16.0.10`
 - **Action Taken**: Upgraded `next` dependency to the latest secure release (Jan 2026).
 
@@ -75,9 +81,28 @@ This project has been patched for **CVE-2025-55182 (React2Shell)**.
 
 The easiest way to deploy is using the [Vercel Platform](https://vercel.com/new).
 
+### Local Deployment
+
+```bash
+npm run build
+npm run start
+```
+
+### Vercel Deployment
+
+1. Push your code to GitHub
+2. Import project on [Vercel Dashboard](https://vercel.com/dashboard)
+3. **Add Environment Variables** in Vercel Project Settings:
+   - `GOOGLE_API_KEY`: Get from [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - `ULTRAVOX_API_KEY`: Optional, for voice features
+
+4. Deploy with:
+
 ```bash
 vercel --prod
 ```
+
+**Important**: Never commit sensitive API keys. Use `.env.local` locally and set environment variables on Vercel.
 
 ## 📄 License
 

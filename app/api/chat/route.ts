@@ -71,8 +71,12 @@ export async function POST(request: NextRequest) {
 
     // Check if API key is configured
     if (!process.env.GOOGLE_API_KEY) {
+      console.error('GOOGLE_API_KEY environment variable is not set');
       return NextResponse.json(
-        { error: 'API key not configured' },
+        { 
+          error: 'API key not configured',
+          details: 'Please ensure GOOGLE_API_KEY is set in your environment variables. Get it from https://makersuite.google.com/app/apikey'
+        },
         { status: 500 }
       );
     }

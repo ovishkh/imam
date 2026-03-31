@@ -24,6 +24,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!process.env.GOOGLE_API_KEY) {
+      console.error('GOOGLE_API_KEY environment variable is not set');
+      return NextResponse.json(
+        { 
+          error: 'API key not configured',
+          details: 'Please ensure GOOGLE_API_KEY is set in your environment variables'
+        },
+        { status: 500 }
+      );
+    }
+
     const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
     
     const result = await model.generateContent({
