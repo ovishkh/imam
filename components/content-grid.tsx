@@ -12,12 +12,15 @@ import {
   Puzzle,
 } from 'lucide-react';
 
+import Link from 'next/link';
+
 interface ContentItem {
   id: string;
   title: string;
   category: string;
   type: 'video' | 'document' | 'website' | 'slides';
   icon: JSX.Element;
+  href: string;
 }
 
 const contentItems: ContentItem[] = [
@@ -27,6 +30,7 @@ const contentItems: ContentItem[] = [
     category: 'Islamic Studies',
     type: 'website',
     icon: <UserRound className='w-8 h-8' />,
+    href: '/biographical-explorer',
   },
   {
     id: '2',
@@ -34,13 +38,15 @@ const contentItems: ContentItem[] = [
     category: 'Knowledge Tools',
     type: 'website',
     icon: <Puzzle className='w-8 h-8' />,
+    href: '/content-analyzer',
   },
   {
     id: '3',
-    title: 'Isnad Visualization',
+    title: 'Hadith Authenticator',
     category: 'Hadith Studies',
     type: 'website',
-    icon: <Link2 className='w-8 h-8' />,
+    icon: <CheckCircle className='w-8 h-8' />,
+    href: '/hadith-authenticator',
   },
   {
     id: '4',
@@ -48,34 +54,15 @@ const contentItems: ContentItem[] = [
     category: 'Quranic Studies',
     type: 'website',
     icon: <BookOpen className='w-8 h-8' />,
+    href: '/quran-explorer',
   },
   {
     id: '5',
-    title: 'Knowledge Web',
-    category: 'Research',
-    type: 'website',
-    icon: <Globe className='w-8 h-8' />,
-  },
-  {
-    id: '6',
-    title: 'Hadith Authenticator',
-    category: 'Hadith Studies',
-    type: 'website',
-    icon: <CheckCircle className='w-8 h-8' />,
-  },
-  {
-    id: '7',
-    title: 'Daily Practice Guide',
-    category: 'Lifestyle',
-    type: 'website',
-    icon: <CalendarDays className='w-8 h-8' />,
-  },
-  {
-    id: '8',
     title: 'Fiqh Navigator',
     category: 'Islamic Jurisprudence',
     type: 'website',
     icon: <Scale className='w-8 h-8' />,
+    href: '/fiqh-navigator',
   },
 ];
 
@@ -105,8 +92,9 @@ export default function ContentGrid() {
         {/* Content Grid */}
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
           {contentItems.map((item) => (
-            <div
+            <Link
               key={item.id}
+              href={item.href}
               className='group p-12 rounded-2xl border border-border bg-card hover:border-primary/50 hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between'
             >
               <div className='flex flex-col items-center text-center space-y-4'>
@@ -118,7 +106,7 @@ export default function ContentGrid() {
                 </h3>
                 <p className='text-sm text-muted-foreground'>{item.category}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
